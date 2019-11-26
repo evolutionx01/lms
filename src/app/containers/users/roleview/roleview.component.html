@@ -1,0 +1,87 @@
+<div class="container-fluid" id="user">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+      <button class="btn btn-header btn-sm">
+        <i class="fa fa-id-badge" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">User Roles</h1>
+    </div>
+    <div class="col-md-6">
+      <div class="float-right">
+        <button type="button" class="btn btn-customer btn-sm mr-2" (click)="openAccess()">ASSIGN ACCESS</button>
+        <button type="button" class="btn btn-customer btn-sm" (click)="openAddrole()">ADD ROLE</button> 
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-8">
+              <span class="showLabel">Show</span>
+
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-4">
+              <form [formGroup]="searchrole">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for userrole">
+                  <div class="input-group-append">
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchrole.invalid" (click)="searchuserrole()">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchrole.invalid" (click)="clearrole()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="content-view">
+          <ngx-datatable #myTable class="material striped expandable" [rows]="roleViewData" [columnMode]="'force'" [headerHeight]="37"
+            [footerHeight]="37" [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+            <ngx-datatable-column name="User Role" [width]="70">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <span> {{row.role}}</span>
+                </div>
+                <div #firstChild class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked('edit', row, firstChild)">Edit</div>
+                  <!-- <div class="px-2">|</div> -->
+                  <!-- <div class="actionTableItem" (click)="actionClicked('delete', row)">Delete</div> -->
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Description" [width]="100" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.description}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Status" [width]="50" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span [ngClass]="row.case == 'Active' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                  {{row.case}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

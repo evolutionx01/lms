@@ -1,0 +1,55 @@
+<div class="container-fluid" id="user">
+  <div class="row header margin-bottom">
+    <div class="col-md-8">
+      <button class="btn btn-header btn-sm">
+        <i class="fa fa-id-badge" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">Role Access</h1>
+    </div>
+    <div class="col-md-4">
+      <div class="float-right">
+        <button class="btn btn-header btn-sm" routerLink='/user/role_details'>
+          <i class="fas fa-reply"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-8">
+
+            </div>
+
+            <div class="col-md-4">
+
+            </div>
+          </div>
+        </div>
+        <div class="content-view">
+          <div class="row">
+            <div class="col-md-12">
+              <ngb-accordion #acc="ngbAccordion" [activeIds]="activeIds">
+                <ngb-panel *ngFor="let data of panelData; let i= index" id="preventchange-{{data.module_id}}">
+                  <ng-template ngbPanelTitle>
+                    <h6>{{data.module_name}}</h6>
+                    <button (click)="openPanel('preventchange-'+data.module_id)">enable</button>
+                  </ng-template>
+                  <ng-template ngbPanelContent>
+                    Panel{{i}}
+                  </ng-template>
+                </ngb-panel>
+
+              </ngb-accordion>
+              <button (click)="activeIds=[]">close all</button>
+              <button (click)="openAll()">open all</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

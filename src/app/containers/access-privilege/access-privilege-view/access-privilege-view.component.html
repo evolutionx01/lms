@@ -1,0 +1,213 @@
+<div class="container-fluid" id="access_privilege">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fab fa-stack-exchange" aria-hidden="true"></i>
+
+      </button>
+      <h1 class="page-heading">Access Privilege</h1>
+
+    </div>
+    <!-- <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddCustomer()">Add Customer</button>
+
+    </div> -->
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="d-inline-block pr-2 ">
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+
+
+
+            </div>
+            <div class="col-md-9">
+              <form [formGroup]="searchCustomer">
+                <div class="row">
+                  <div class="form-group col-md-4 mb-0">
+                    <ng-select [items]="privilegesArrayData" bindLabel="title" bindValue="fields" placeholder="select privilege" formControlName="privilege">
+                    </ng-select>
+                  </div>
+                  <div class="form-group col-md-4 mb-0">
+                    <ng-select [items]="status" bindLabel="name" bindValue="id" placeholder="select status" formControlName="status">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-4 mb-0">
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for customer name">
+                      <div class="input-group-append">
+                        <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid" (click)="search()">
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search" (click)="clear()" type="button">
+                          <i class="fas fa-redo-alt"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>
+          </div>
+
+        </div>
+        <div class="content-view">
+          <div class="d-flex flex-row-reverse">
+            <a href="javascript:void(0)" style="font-size:0.8rem" (click)="table.rowDetail.expandAllRows()">Expand All</a>
+            <div class="px-2 divider">|</div>
+            <a href="javascript:void(0)" style="font-size:0.8rem" (click)="table.rowDetail.collapseAllRows()">Collapse All</a>
+          </div>
+          <div>
+            <ngx-datatable #myTable class="material striped expandable" [rows]="customerData" [columnMode]="'force'" [headerHeight]="37"
+              [footerHeight]="37" [limit]="pageLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements"
+              [offset]="pageNumber" (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+              <!-- Row Detail Template -->
+              <ngx-datatable-row-detail [rowHeight]="'auto'" #myDetailRow (toggle)="onDetailToggle($event)">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-row-detail-template>
+
+                  <div class="row">
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'is_collapsible', 'Expand / Collapse', row)" size="small" [(ngModel)]="row.is_collapsible"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">Expand / Collapse</span>
+
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'is_managing_contact', 'Practice Management', row)" size="small"
+                          [(ngModel)]="row.is_managing_contact"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">Practice Management</span>
+
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'is_map_provider', 'Map Providers', row)" size="small" [(ngModel)]="row.is_map_provider"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">Map Providers</span>
+
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'is_payer_show', 'Payer Setting', row)" size="small" [(ngModel)]="row.is_payer_show"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">Payer Setting</span>
+
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <h6 class="rowDetail pr-2 mb-0">Payer View Setting</h6>
+                      <p class="rowDetail mb-0">
+                        <span class="pr-2">
+                          <ui-switch defaultBgColor="red" (change)="onChange($event, 'is_new_payer_view', 'New View', row)" size="small" [(ngModel)]="row.is_new_payer_view"></ui-switch>
+                        </span> Notes
+                      </p>
+                      <p class="rowDetail mb-0">
+                        <span class="pr-2">
+                          <ui-switch defaultBgColor="red" (change)="onChange($event, 'is_old_comments_view', 'Show Old Comment', row)" size="small"
+                            [(ngModel)]="row.is_old_comments_view"></ui-switch>
+                        </span>Comment
+                      </p>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'has_portal_access', 'MSO', row)" size="small" [(ngModel)]="row.has_portal_access"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">MSO</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'note_task_deletion_access', 'Deletion of Task/Note', row)" size="small"
+                          [(ngModel)]="row.note_task_deletion_access"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">Deletion of Task/Note</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <span class="pr-2">
+                        <ui-switch defaultBgColor="red" (change)="onChange($event, 'note_task_subject_edit_access', 'Edit subject for Task/Note', row)"
+                          size="small" [(ngModel)]="row.note_task_subject_edit_access"></ui-switch>
+                      </span>
+                      <span class="rowDetail pr-2 mb-0">Edit subject for Task/Note</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'dop_access', 'DOP', row)" size="small" [(ngModel)]="row.dop_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">DOP</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'psv_access', 'PSV', row)" size="small" [(ngModel)]="row.psv_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">PSV</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'psv_scheduler_access', 'PSV Scheduler', row)" size="small" [(ngModel)]="row.psv_scheduler_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">PSV Scheduler</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'psv_audit_trail_access', 'PSV Audit Trail', row)" size="small"
+                        [(ngModel)]="row.psv_audit_trail_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">PSV Audit Trail</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'expiration_scheduler_access', 'Expiration Scheduler', row)" size="small"
+                        [(ngModel)]="row.expiration_scheduler_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">Expiration Scheduler</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="openToAddDomain($event, 'api_access', 'API ACCESS', row)" size="small"
+                        [(ngModel)]="row.api_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">API Access</span>
+                      <button *ngIf="row.api_access == 1"  class="btn  btn-sm btn-edit" (click)="editApiAccess(row)"><i class="fas fa-edit"></i></button>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'caqh_sync_access', 'caqh sync Access', row)" size="small"
+                        [(ngModel)]="row.caqh_sync_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">CAQH Sync</span>
+                    </div>
+                    <div class="col-md-3 mb-2">
+                      <ui-switch defaultBgColor="red" (change)="onChange($event, 'cme_preview_access', 'Cme Preview Access', row)" size="small"
+                        [(ngModel)]="row.cme_preview_access"></ui-switch>
+                      <span class="rowDetail pr-2 mb-0">CME Preview</span>
+                    </div>
+                  </div>
+                </ng-template>
+              </ngx-datatable-row-detail>
+
+              <ngx-datatable-column [width]="50" [resizeable]="false" [sortable]="false" [draggable]="false" [canAutoResize]="false">
+                <ng-template let-row="row" let-expanded="expanded" ngx-datatable-cell-template>
+                  <a href="javascript:void(0)" [class.datatable-icon-right]="!expanded" [class.datatable-icon-down]="expanded" title="Expand/Collapse Row"
+                    (click)="toggleExpandRow(row)">
+                  </a>
+                </ng-template>
+              </ngx-datatable-column>
+
+              <ngx-datatable-column name="Customer Name" [sortable]="true">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <span>
+                    <b>{{row.customer}}</b>
+                  </span>
+
+                </ng-template>
+              </ngx-datatable-column>
+
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,54 @@
+<header>
+   <nav class="navbar navbar-expand navbar-light bg-white fixed-top">
+    <div class="d-flex justify-content-start px-2">
+      <button class="btn btn-cutom " (click)="clickEvent()" id="sidebarToggle">
+            <i class="fas fa-bars"></i>
+      </button>  
+    </div>  
+    <a class="navbar-brand px-2 mr-0" >
+      <img src="./images/logo.png"  class="d-inline-block align-top img-fluid img-logo" alt="">
+    </a>
+    <!-- Navbar -->
+    <ul class="navbar-nav mr-auto">
+      <!-- <li class="nav-item dropdown no-arrow px-2 ">
+        <a class="nav-link dropdown-toggle"  id="alertsDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-bell fa-fw"></i>
+          <span class="badge badge-danger">9+</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="alertsDropdown">
+          <a class="dropdown-item" >Action</a>
+          <a class="dropdown-item">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item" >Something else here</a>
+        </div>
+      </li>
+      <li class="nav-item dropdown no-arrow px-2 ">
+        <a class="nav-link dropdown-toggle" id="messagesDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-envelope fa-fw"></i>
+          <span class="badge badge-danger">7</span>
+        </a>
+        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="messagesDropdown">
+          <a class="dropdown-item">Action</a>
+          <a class="dropdown-item">Another action</a>
+          <div class="dropdown-divider"></div>
+          <a class="dropdown-item">Something else here</a>
+        </div>
+      </li> -->
+    </ul>
+    <ul class="navbar-nav justify-content-end ">
+      <li class="nav-item dropdown no-arrow">
+          <a class="nav-link dropdown-toggle" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-user-circle fa-fw"></i><span class="px-2 userProfile">{{userName}}</span></a> 
+          <div class="dropdown-menu dropdown-menu-right" aria-labelledby="userDropdown">
+            <a class="dropdown-item">Settings</a>
+            <a class="dropdown-item">Activity Log</a>
+            <div class="dropdown-divider"></div>
+            <a class="dropdown-item" (click)="logOut()">Logout</a> 
+            <!--  routerLink="/signin" -->
+          </div>
+        </li>
+    </ul>
+
+  </nav>
+
+  
+</header>

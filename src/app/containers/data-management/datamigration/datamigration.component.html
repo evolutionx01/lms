@@ -1,0 +1,274 @@
+<div #pageTop class="container-fluid" id="datamigration">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">Data Migration</h1>
+
+    </div>
+    <!-- <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddProvider()">Add Provider</button>
+
+    </div> -->
+  </div>
+
+  <div class="row" id="dataStep">
+    <div class="col-md-12">
+      <ngb-tabset #tabset>
+        <ngb-tab id="tab-type">
+          <ng-template ngbTabTitle>
+            <span class="round-tab">
+              <i class="far fa-file"></i>
+            </span>
+
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="text-center">
+              <h3 class="progressTitle">Select Type</h3>
+            </div>
+            <div class="card">
+
+              <div class="card-body">
+                <form [formGroup]="dataMigrationType">
+
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="state">Type</label>
+                      <span class="mandatory">*</span>
+                      <!-- (ngModelChange)=onTypeChage($event) -->
+                      <ng-select [clearable]="false" [items]="typeData" (ngModelChange)=onTypeChage($event) [virtualScroll]="true" bindLabel="item_name"
+                        placeholder="Select a type" bindValue="id" formControlName="type">
+                      </ng-select>
+                    </div>
+
+                    <!-- <div class="form-group col-md-6" >
+                      <label>Include Documents</label>
+                      <div class="pt-2">
+                        <div class="form-check form-check-inline">
+                          
+                          <input class="form-check-input" type="checkbox" [checked]="checkModel" formControlName="is_document" (change)="onchangeDocument($event)">
+                          <label class="form-check-label" for="is_multi">Documents</label>
+                        </div>
+                        
+                      </div>
+                    </div> -->
+                  </div>
+
+
+
+                </form>
+              </div>
+              <div class="card-footer">
+                <div class="float-right">
+                  <button type="button" class="btn btn-migration btn-sm" [disabled]="dataMigrationType.invalid" (click)="nextTypeBtn()">Next</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-customer" [disabled]="isCustomerDisabled">
+          <ng-template ngbTabTitle>
+            <span class="round-tab">
+              <i class="fas fa-users"></i>
+            </span>
+
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="text-center">
+              <h3 class="progressTitle">Select Customer</h3>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <form [formGroup]="dataMigrationCustomer">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="state">Customer (from)</label>
+                      <span class="mandatory">*</span>
+                      <ng-select [clearable]="false" (change)=onFromCustomerChage($event) [items]="customerList" [virtualScroll]="true" bindLabel="customer"
+                        placeholder="Select a customer from which data to be moved" bindValue="user_id" formControlName="from_customer">
+                      </ng-select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="state">Customer (to)</label>
+                      <span class="mandatory">*</span>
+                      <ng-select [clearable]="false" (change)=onToCustomerChage($event) [items]="customerList" [virtualScroll]="true" bindLabel="customer"
+                        placeholder="Select a customer to which data to be moved" bindValue="user_id" formControlName="to_customer">
+                      </ng-select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer">
+                <div class="float-right">
+                  <button type="button" class="btn btn-migration btn-sm mr-2" (click)="previousCustomerBtn()">Previous</button>
+                  <button type="button" class="btn btn-migration btn-sm" [disabled]="dataMigrationCustomer.invalid" (click)="nextCustomerBtn()">Next</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-tin" [disabled]="isTinDisabled">
+          <ng-template ngbTabTitle>
+            <span class="round-tab">
+              <i class="fas fa-building"></i>
+            </span>
+
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="text-center">
+              <h3 class="progressTitle">Select TIN</h3>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <form [formGroup]="dataMigrationTin">
+                  <div class="form-row">
+                    <div class="form-group col-md-6">
+                      <label for="state">TIN (from)</label>
+                      <span class="mandatory">*</span>
+                      <ng-select [clearable]="false" (change)=onFromTinChage($event) [items]="fromTinDropdown" [virtualScroll]="true" bindLabel="tin_group_name"
+                        placeholder="Select a tin from which data to be moved" bindValue="tin_id" formControlName="from_tin">
+                      </ng-select>
+                    </div>
+                    <div class="form-group col-md-6">
+                      <label for="state">TIN (to)</label>
+                      <span class="mandatory">*</span>
+                      <ng-select [clearable]="false" (change)=onToTinChage($event) [items]="toTinDropdown" [virtualScroll]="true" bindLabel="tin_group_name"
+                        placeholder="Select a tin to which data to be moved" bindValue="tin_id" formControlName="to_tin">
+                      </ng-select>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div class="card-footer">
+                <div class="float-right">
+                  <button type="button" class="btn btn-migration btn-sm mr-2" (click)="previousTinBtn()">Previous</button>
+                  <button type="button" class="btn btn-migration btn-sm" [disabled]="dataMigrationTin.invalid" (click)="nextTinBtn()">Next</button>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+        <ngb-tab id="tab-list" [disabled]="isListDisabled">
+          <ng-template ngbTabTitle>
+            <span class="round-tab">
+              <i class="fas fa-exchange-alt"></i>
+            </span>
+
+          </ng-template>
+          <ng-template ngbTabContent>
+            <div class="text-center">
+              <h3 class="progressTitle">Transfer Data</h3>
+            </div>
+            <div class="card">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-5">
+                    <div>
+
+                      <h4 class="pb-2">Customer Name:
+                        <b style="color: #0062b0">{{fromCustomer}}</b>
+                      </h4>
+                      <h4 *ngIf="isTinTitleDisabled" class="pb-2">Tin Name:
+                        <b style="color: #0062b0">{{fromTin}}</b>
+                      </h4>
+
+                    </div>
+                    <ngx-datatable class="material striped" [rows]="dataFromList" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="0"
+                      [rowHeight]="37" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" [displayCheck]="displayCheck"
+                      (activate)="onActivate($event)" (select)='onSelect($event)' [externalSorting]="true" (sort)="onSort($event)"
+                      [scrollbarV]="true">
+
+                      <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+                        [checkboxable]="true">
+                      </ngx-datatable-column>
+
+                      <ngx-datatable-column name="{{tableTitle}}" [sortable]="true">
+                        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                          <span *ngIf="showTinList">{{row.tin_group_name}}</span>
+                          <span *ngIf="showProviderList">{{row.first_name + row.last_name}}</span>
+                          <span *ngIf="showLocationList">{{row.practice_name}}</span>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                    </ngx-datatable>
+                  </div>
+                  <div class="col-md-2 text-center" style="margin-top: 10%">
+                    <div class="pb-2">
+                      <button class="btn btn-migration btn-sm" (click)="transferDatatoAnother('move')">
+                        <span>Move
+                          <i class="fas fa-angle-double-right align-middle"></i>
+                        </span>
+                      </button>
+                    </div>
+                    <div class="pb-2">
+                      <button class="btn btn-migration btn-sm" (click)="transferDatatoAnother('copy')">
+                        <span>Copy
+                          <i class="fas fa-angle-double-right align-middle"></i>
+                        </span>
+                      </button>
+                    </div>
+
+                    <div class="pb-2">
+                      <button class="btn btn-migration btn-sm" (click)="resetToList()">
+                        <span>Reset
+                          <i class="fas fa-sync-alt align-middle"></i>
+                        </span>
+                      </button>
+                    </div>
+
+
+                  </div>
+                  <div class="col-md-5">
+                    <div>
+                      <h4 class="pb-2">Customer Name:
+                        <b style="color: #0062b0">{{toCustomer}}</b>
+                      </h4>
+                      <h4 *ngIf="isTinTitleDisabled" class="pb-2">Tin Name:
+                        <b style="color: #0062b0">{{toTin}}</b>
+                      </h4>
+                    </div>
+                    <!-- [selected]="selected" [selectionType]="'checkbox'" [displayCheck]="displayCheck"
+                      (activate)="onActivate($event)" (select)='onSelect($event)' [externalSorting]="true" (sort)="onSort($event)" -->
+                    <ngx-datatable class="material striped" [rows]="dataToList" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="0"
+                      [rowHeight]="37" [selectAllRowsOnPage]="false" [scrollbarV]="true" [displayCheck]="displayCheck" [externalSorting]="true"
+                      (sort)="onSort($event)">
+
+                      <!-- <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+                        [checkboxable]="true">
+                      </ngx-datatable-column> -->
+
+                      <ngx-datatable-column name="{{tableTitle}}" [sortable]="true">
+                        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                          <span *ngIf="showTinList">{{row.tin_group_name}}</span>
+                          <span *ngIf="showProviderList">{{row.first_name + row.last_name}}</span>
+                          <span *ngIf="showLocationList">{{row.practice_name}}</span>
+                        </ng-template>
+                      </ngx-datatable-column>
+
+                    </ngx-datatable>
+                  </div>
+                </div>
+              </div>
+              <div class="card-footer">
+                <div class="row">
+                  <div class="col-md-9">
+                    <p *ngIf="isTinTitleDisabled" class="mandatory"><b>Note:</b> Make sure that the tin <b>{{fromTin}}</b> has been moved to the customer <b>{{toCustomer}}</b></p>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="float-right">
+                      <button type="button" class="btn btn-migration btn-sm mr-2" (click)="previousListBtn()">Previous</button>
+                      <button type="button" class="btn btn-migration btn-sm" [disabled]="isDisabled" (click)="transfer()">Save</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </ng-template>
+        </ngb-tab>
+      </ngb-tabset>
+    </div>
+  </div>
+
+</div>

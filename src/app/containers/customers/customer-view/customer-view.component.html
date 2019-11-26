@@ -1,0 +1,154 @@
+<div #pageTop class="container-fluid" id="customer">
+  <div class="row header margin-bottom">
+    <div class="col-md-6">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">Customers</h1>
+
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddCustomer()">Add Customer</button>
+      <button type="button" class="btn btn-customer btn-sm float-right mx-2" (click)="openReports()">Reports</button>
+
+    </div>
+
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="d-inline-block pr-1">
+                <!-- <h6 class="page-subheading">List of Customers</h6> -->
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <form class="searchBox" [formGroup]="searchCustomer">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for customer name">
+                  <div class="input-group-append">
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid" (click)="search()">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-search" (click)="clear()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                    <!-- <button class="btn btn-search" (click)="search()">
+                      <i class="fas fa-search"></i>
+                    </button> -->
+                  </div>
+                </div>
+              </form>
+              <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel" (click)="exportExcel()">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="content-view">
+
+          <ngx-datatable #myCustomerTable class="material striped expandable" [rows]="custDetails" [columnMode]="'force'" [headerHeight]="37"
+            [footerHeight]="37" [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+            <ngx-datatable-column name="Customer" [width]='250'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <span>{{row.customer}}</span>
+                </div>
+                <div #firstChild class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'view')">View</div>
+                  <div class="px-2 divider">|</div>
+                  <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'edit')">Edit</div>
+                  <div class="px-2 divider">|</div>
+                  <!-- <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'delete')">Delete</div> -->
+                  <div class="actionTableItem" (click)="onStatusChange($event, row, firstChild)">{{row.is_active == 0 ? 'Activate' : 'Inactivate' }}</div>
+                </div>
+
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Email" [sortable]="false" [width]='300'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.email}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Created By" [sortable]="false" [width]='150'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.created_by_name}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Created on" [sortable]="false" [width]='150'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.created_on}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Last Visited" [sortable]="false" [width]='150'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.last_visit}} </span>
+
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Providers" [sortable]="false" [width]='150'>
+              <ng-template let-column="column" ngx-datatable-header-template>
+                <span style="font-size: .75rem;color: white;vertical-align: top;line-height: .5;">Provider</span>
+                <p style="font-size: .65rem;color: white;vertical-align: top;line-height: 0;">Active / Inactive</p>
+              </ng-template>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div class="">
+                  <span class="badge badge-success width-100 opacity-8" placement="top" ngbTooltip="Active Provider" tooltipClass="toolTip">{{row.active_providers}}</span>
+                  <span class="badge badge-danger width-100 opacity-8" placement="top" ngbTooltip="Inactive Provider" tooltipClass="toolTip">{{row.inactive_providers}}</span>
+                  <!-- <span class="badge badge-success width-100 opacity-8 col-md-6">{{row.active_providers}}</span>
+                    <span class="badge badge-danger width-100 opacity-8 col-md-6">{{row.inactive_providers}}</span> -->
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Expires on" [sortable]="false" [width]='150'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.expires_on}} </span>
+
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Pay per form">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <!-- <span>{{row.loc_Active}}</span> -->
+                <span [ngClass]="row.pay_per_form == 'yes' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                  {{row.pay_per_form == null ? 'no' : row.pay_per_form}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Status">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <!-- <span>{{row.loc_Active}}</span> -->
+                <span [ngClass]="row.is_active == 1 ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                  {{row.is_active == 0 ? 'Inactive' : 'Active'}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

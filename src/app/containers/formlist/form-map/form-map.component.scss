@@ -1,0 +1,101 @@
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+#mapping{
+    .margin-bottom{
+        margin-bottom: $margin-bottom;
+    }
+        .page-heading{
+            padding: .50rem .75rem;
+            font-size: 1rem;
+            color:$font-color;
+            display: inline-block;
+            margin-bottom: 0;
+            line-height: 1rem;
+            vertical-align: middle;
+            font-weight: bold;
+
+        }
+        .page-subheading{
+            font-weight: bold;
+            display: inline-block;
+            font-size: .8125rem
+        }
+        .btn-header{
+            @include pageHeader-button($bg-master-button);
+        }
+        .btn-customer{
+            @include button-big($bg-master-button);
+        }
+    
+    .content{
+        .content-card{
+            background: $white;
+            border: $input-border;
+            padding: 0.75rem;
+            .content-header{
+                padding-bottom:0.5rem;
+                h6{
+                    margin-bottom: 0;
+                    line-height: 2rem;
+                    vertical-align: middle;
+                } 
+                
+                
+               
+            }
+            .content-view{
+               
+                .input-group{
+                    .btn-search{
+                        @include button-big($bg-action-button);
+                    }    
+                }   
+                .form_view_header{
+                    background: $bg-action-button;
+                    color: $white;
+                    font-weight: bold;
+                    font-size: 0.8125rem;
+                    padding: .5rem 1rem;
+                }
+                .divider{
+                    color: $border-color;
+                }
+                .page-heading{
+                    padding: .50rem .75rem;
+                    font-size: 1rem;
+                    color:white;
+                    display: inline-block;
+                    margin-bottom: 0;
+                    line-height: 1rem;
+                    vertical-align: middle;
+                    font-weight: bold;
+        
+                }
+                .paddingTop{
+                    padding-top: 5px;
+                }
+                .font20{
+                    font-size: 16px;
+                }
+                .download{
+                    &:hover{
+                        color: $bg-master-button;
+                        cursor: pointer;
+                    }
+                }
+                .pdfControls{
+                    &:hover{
+                        cursor: pointer;
+                    }
+                }
+                .btn-download{
+                    @include button-big($bg-action-button);
+                    padding: .25rem .5rem;
+                }
+            }
+            
+        }
+    }
+    
+}

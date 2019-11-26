@@ -1,0 +1,377 @@
+<div id="content-wrapper">
+
+    <ngb-accordion #a="ngbAccordion" activeIds="dashb">
+        <ngb-panel id="dashb">
+          <ng-template ngbPanelHeader let-opened="opened">
+            <div class="d-flex align-items-center justify-content-between">
+              <h5 class="m-0">First panel - {{ opened ? 'opened' : 'collapsed' }}</h5>
+              <button ngbPanelToggle class="btn btn-primary p-0">Toggle first</button>
+            </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+            aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+            labore sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel>
+          <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="m-0">First panel - {{ opened ? 'opened' : 'collapsed' }}</h5>
+                  <button ngbPanelToggle class="btn btn-primary p-0">Toggle second</button>
+                </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+            aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+            labore sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+        <ngb-panel >
+          <ng-template ngbPanelHeader>
+              <div class="d-flex align-items-center justify-content-between">
+                  <h5 class="m-0">First panel - {{ opened ? 'opened' : 'collapsed' }}</h5>
+                  <button ngbPanelToggle class="btn btn-primary ">Toggle third</button>
+                </div>
+          </ng-template>
+          <ng-template ngbPanelContent>
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia
+            aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor,
+            sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica,
+            craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings
+            occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus
+            labore sustainable VHS.
+          </ng-template>
+        </ngb-panel>
+      </ngb-accordion>
+  <div class="container-fluid" id="dashboard">
+    <div class="row header mb-4">
+      <div class="col-md-6 ">
+
+        <button class="btn btn-header btn-sm">
+          <i class="fas fa-users"></i>
+        </button>
+        <h1 class="page-heading">Dashboard</h1>
+
+      </div>
+    </div>
+    <section id="dashboard" class="mb-4">
+      <div class="row">
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body card-customer">
+              <div class="row">
+                <div class="col-md-8">
+                  <h6 class="card-count-heading mb-2">Customer</h6>
+                  <h5 class="card-title">{{totalCustomer}}</h5>
+                  <p class="card-text mb-0">
+                    <i class="fas fa-arrow-up success"></i> {{lastMonthCustomer}} %</p>
+                  <p class="card-count-title mb-0">Since last month</p>
+                </div>
+                <div class="col-md-4 text-right">
+                  <h6 class="card-count-title mb-0">Active</h6>
+                  <h5 class="card-count mb-4">{{activeCustomer}}</h5>
+                  <h6 class="card-count-title mb-0">Inactive</h6>
+                  <h5 class="card-count mb-0">{{inactiveCustomer}}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body card-customer">
+              <div class="row">
+                <div class="col-md-8">
+                  <h6 class="card-count-heading mb-2">Provider</h6>
+                  <h5 class="card-title">{{totalProvider}}</h5>
+                  <p class="card-text mb-0">
+                    <i class="fas fa-arrow-up success"></i> {{lastMonthProvider}} %</p>
+                  <p class="card-count-title mb-0">Since last month</p>
+                </div>
+                <div class="col-md-4 text-right">
+                  <h6 class="card-count-title mb-0 ">Active</h6>
+                  <h5 class="card-count mb-4">{{activeProvider}}</h5>
+                  <h6 class="card-count-title mb-0">Inactive</h6>
+                  <h5 class="card-count mb-0">{{inactiveProvider}}</h5>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-4">
+          <div class="card">
+            <div class="card-body card-customer">
+              <div class="row">
+                <div class="col-md-8">
+                  <h6 class="card-count-heading mb-2">User</h6>
+                  <h5 class="card-title">{{totalUser}}</h5>
+                  <p class="card-text mb-0">
+                    <i class="fas fa-arrow-up success"></i> {{lastMonthUser}} %</p>
+                  <p class="card-count-title mb-0">Since last month</p>
+                </div>
+                <!-- <div class="col-md-4 text-right">
+                  <h6 class="card-count-title mb-0 ">Active</h6>
+                  <h5 class="card-count mb-4">{{activeCustomer}}</h5>
+                  <h6 class="card-count-title mb-0 ">Inactive</h6>
+                  <h5 class="card-count mb-0">{{inactiveCustomer}}</h5>
+                </div> -->
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="dashbord_list">
+
+      <div class="row">
+        <div class="col-md-12">
+          <div class="content-card">
+            <div class="content-view p-0">
+              <ngb-tabset (tabChange)="beforeChange($event)" [justify]="'end'">
+
+                <ngb-tab id="customer">
+                  <ng-template ngbTabTitle>
+                    <h4>Customers</h4>
+                  </ng-template>
+                  <ng-template ngbTabContent>
+
+                    <div class="container-fluid">
+                      <div class="row tabHeader">
+                        <div class="col-md-6">
+                          <div class="d-inline-block pr-1">
+                            <span class="showLabel">Show</span>
+                          </div>
+                          <div class="d-inline-block form-group m-0">
+                            <select class="form-control" (change)="onLimitCustomerChange($event.target.value, 'provider')">
+                              <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                                {{ option.value }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+
+                        <div class="col-md-6">
+                          <form [formGroup]="searchCustomer">
+                            <div class="row mb-0">
+                              <div class="col-md-4">
+
+                                <ng-select [clearable]="false" [items]="statusDropdown" bindLabel="name" placeholder="Select Status" bindValue="id" formControlName="status">
+                                </ng-select>
+
+                              </div>
+                              <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                  <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for customer name">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid" (click)="onCustomerSearch()">
+                                      <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-search" (click)="clear('customer')" type="button">
+                                      <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                      <div class="row customForm">
+                        <div class="col-md-12">
+
+
+                          <ngx-datatable #customerTable class="material striped" [rows]="customerData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                            [limit]="customerLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="customerCount" [offset]="customerOffset"
+                            (page)="onCustomerPage($event)">
+
+                            <ngx-datatable-column name="Customer">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.customer}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Provider (Active | Inactive)">
+                                <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span style="font-size: .80rem;color: white;vertical-align: top;line-height: .5;">Provider</span>
+                                    <p style="font-size: .80rem;color: white;vertical-align: top;line-height: 0;">Active / Inactive</p>
+                                  </ng-template>
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.active_providers}} | {{row.inactive_providers}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Initial Provider Count">
+                              <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span style="font-size: .80rem;color: white;vertical-align: top;line-height: .5;">Initial Provider</span>
+                                    <p style="font-size: .80rem;color: white;vertical-align: top;line-height: 0;">Count</p>
+                                  </ng-template>
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.initial_provider_count}}</span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Current Provider Count">
+                              <ng-template let-column="column" ngx-datatable-header-template>
+                                    <span style="font-size: .80rem;color: white;vertical-align: top;line-height: .5;">Current Provider</span>
+                                    <p style="font-size: .80rem;color: white;vertical-align: top;line-height: 0;">Count</p>
+                              </ng-template>
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.active_providers + row.inactive_providers}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Users">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.users}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="TINs">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.tins}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Locations">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.locations}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Last Login">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <span>{{row.last_visit}} </span>
+                              </ng-template>
+                            </ngx-datatable-column>
+                          </ngx-datatable>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-tab>
+                <ngb-tab id="user">
+                  <ng-template ngbTabTitle>
+                    <h4>Users</h4>
+                  </ng-template>
+                  <ng-template ngbTabContent>
+
+                    <div class="container-fluid">
+                      <div class="row tabHeader">
+                        <div class="col-md-6">
+                          <div class="d-inline-block pr-1">
+                            <span class="showLabel">Show</span>
+                          </div>
+                          <div class="d-inline-block form-group m-0">
+                            <select class="form-control" (change)="onLimitUserChange($event.target.value, 'appuser')">
+                              <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                                {{ option.value }}
+                              </option>
+                            </select>
+                          </div>
+                        </div>
+                        <div class="col-md-6">
+
+                          <form [formGroup]="searchUser">
+                            <div class="row mb-0">
+                              <div class="col-md-4">
+
+                                <ng-select [clearable]="false" [items]="statusDropdown" bindLabel="name" placeholder="Select Status" bindValue="id" formControlName="status">
+                                </ng-select>
+
+                              </div>
+                              <div class="col-md-8">
+                                <div class="input-group input-group-sm">
+                                  <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for user name">
+                                  <div class="input-group-append">
+                                    <button class="btn btn-search" click-stop-propagation [disabled]="searchUser.invalid" (click)="onUserSearch()">
+                                      <i class="fas fa-search"></i>
+                                    </button>
+                                    <button class="btn btn-search" (click)="clear('user')" type="button">
+                                      <i class="fas fa-redo-alt"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </form>
+
+
+                        </div>
+                      </div>
+                      <div class="row customForm">
+                        <div class="col-md-12">
+
+
+                          <ngx-datatable #userTable class="material striped" [rows]="userData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                            [limit]="userLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="userCount" [offset]="userOffset"
+                            (page)="onUserPage($event)">
+                            <ngx-datatable-column name="User Name">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+                                <span>{{row.name}}</span>
+
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Customer Name">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+                                <span>{{row.customer}}</span>
+
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Last Login">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                                <div #firstChild>
+                                  <span (click)="viewHistory(row.user_id, firstChild)">
+                                    <i *ngIf="row.login_history.length != 0" class="fas fa-eye pr-2"></i>
+                                  </span>
+                                  <span>{{row.last_visit}}</span>
+                                </div>
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="IP Address">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+                                <span>{{row.login_history.length == 0 ? '' : row.login_history[0].ip_address}}</span>
+
+                              </ng-template>
+                            </ngx-datatable-column>
+
+                            <ngx-datatable-column name="Browser">
+                              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+                                <span>{{row.login_history.length == 0 ? '' : row.login_history[0].u_agent}}</span>
+
+                              </ng-template>
+                            </ngx-datatable-column>
+                          </ngx-datatable>
+                        </div>
+                      </div>
+                    </div>
+                  </ng-template>
+                </ngb-tab>
+
+
+              </ngb-tabset>
+            </div>
+          </div>
+
+        </div>
+
+
+      </div>
+
+    </section>
+  </div>
+</div>

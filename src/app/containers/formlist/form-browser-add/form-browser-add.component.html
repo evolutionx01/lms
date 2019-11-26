@@ -1,0 +1,32 @@
+<div class="modal-header">
+  <h4 class="modal-title">{{modelTitle}}</h4>
+  <!-- <h4 class="modal-title" *ngIf="!showtitle">EDIT FORM DETAILS</h4> -->
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="uploadform">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="formurl">Form URL
+          <span class="mandatory">*</span>
+        </label>
+        <input type="text" class="form-control" formControlName="form_url" id="formurl" placeholder="Form URL" required>
+        <small class="text-danger" *ngIf="uploadform.controls['form_url'].hasError('required') && uploadform.controls['form_url'].touched">
+          Form url is mandatory. </small>
+          <small class="text-danger" *ngIf="uploadform.controls['form_url'].hasError('pattern') && uploadform.controls['form_url'].touched">
+            Please enter a valid url. </small>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+ 
+  <button *ngIf="!showAdd" type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="uploadform.invalid" (click)="createUpdateFormBrowser('edit')"
+   >Update</button>
+  <button *ngIf="showAdd" type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="uploadform.invalid" (click)="createUpdateFormBrowser('add')"
+   >Save</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="clearDetails()"> Clear</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="activeModal.close('no')">Cancel</button>
+</div>

@@ -1,0 +1,87 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header">
+  <h4 class="modal-title">Login History</h4>
+  <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+
+
+
+
+</div>
+<div class="modal-body">
+  <div class="row mb-2">
+    <div class="col-md-6">
+
+    </div>
+    <div class="col-md-6">
+      <form class="searchBox" [formGroup]="searchCustomer">
+        <div class="row">
+          <div class="col-md-10">
+            <div class="input-group input-group-sm">
+              <input type="text" class="form-control" formControlName="searchValue"
+                placeholder="Search with IP Address">
+              <div class="input-group-append">
+                <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid"
+                  (click)="search()">
+                  <i class="fas fa-search"></i>
+                </button>
+                <button class="btn btn-search" (click)="clear()" type="button">
+                  <i class="fas fa-redo-alt"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel"
+              (click)="exportExcelHistory()">
+              <i class="fas fa-download"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+
+    </div>
+  </div>
+  <ngx-datatable class="material striped" [rows]="loginData" [columnMode]="'force'" [headerHeight]="37"
+    [footerHeight]="37" [limit]="loginLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="loginCount"
+    [offset]="userOffset" (page)="onHistoryPage($event)">
+    <!-- <ngx-datatable class="material striped" [rows]="loginData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+      [limit]="loginLimit" [rowHeight]="'auto'"  [externalPaging]="true" [count]="loginCount" [offset]="userOffset" (page)="onHistoryPage($event)"> -->
+
+    <ngx-datatable-column name="Login Time">
+      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+        <span>{{row.login_time}}</span>
+
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="Logout Time">
+      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+        <span>{{row.logout_time}}</span>
+
+      </ng-template>
+    </ngx-datatable-column>
+    <ngx-datatable-column name="IP Address">
+      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+        <span>{{row.ip_address}}</span>
+
+      </ng-template>
+    </ngx-datatable-column>
+
+    <ngx-datatable-column name="Browser">
+      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+        <span>{{row.u_agent}}</span>
+
+      </ng-template>
+    </ngx-datatable-column>
+
+
+  </ngx-datatable>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-close btn-sm" (click)="actionClicked('yes')">Close</button>
+</div>

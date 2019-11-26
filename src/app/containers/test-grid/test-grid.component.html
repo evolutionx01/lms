@@ -1,0 +1,88 @@
+<h1>Customers</h1>
+<div class="row">
+  <div class="col-md-6">
+    <input type="file" (change)="fileChange($event)" placeholder="Browse" accept=".pdf">
+
+    <button class="btn btn-lg btn-outline-primary" (click)="open(content)">Launch demo modal</button>
+
+    <ngx-datatable class="material striped" [rows]="config" [columnMode]="'force'" [loadingIndicator]="'loadingIndicator'" [headerHeight]="50"
+      [footerHeight]="50" [limit]="10" [rowHeight]="'auto'" [reorderable]="'reorderable'" [selected]="selected" [selectionType]="'single'"
+      (select)='onSelect($event)'>
+      <ngx-datatable-column name="S.No">
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <span> {{rowIndex+1}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Customer">
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <span> {{row.customer}} </span>
+        </ng-template>
+      </ngx-datatable-column>
+
+      <ngx-datatable-column name="Actions">
+        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+          <span class="actionItem fa fa-pencil" (click)="edit(row)"> </span>
+         
+            
+        </ng-template>
+      </ngx-datatable-column>
+
+    </ngx-datatable>
+
+  </div>
+
+
+
+  <div class="pdfSection col-md-6">
+    <form [formGroup]="pdfForm">
+      <div class="row">
+        <div class="col-md-12">
+          <span class="pdfControls fa fa-search"></span>
+          <span class="pdfControls fa fa-angle-double-left fa-lg" (click)="pageChanged('first')"></span>&nbsp;
+          <span class="pdfControls fa fa-angle-left fa-lg" (click)="pageChanged('prev')"></span> &nbsp;
+          <input type="text" style="width: 30px;" formControlName="page" (keydown)="searchPage($event)" max="{{pdfViewer.getNumberOfPages()}}">/{{pdfViewer.getNumberOfPages()}}
+          <span class="pdfControls fa fa-angle-right fa-lg" (click)="pageChanged('next')"></span> &nbsp;
+          <span class="pdfControls fa fa-angle-double-right fa-lg" (click)="pageChanged('last')"></span> &nbsp;
+        </div>
+      </div>
+    </form>
+    <div class="row">
+      <!-- <div class="col-md-2">
+     
+      </div> -->
+      <div class="col-md-12">
+        <simple-pdf-viewer #pdfViewer></simple-pdf-viewer>
+      </div>
+    </div>
+  </div>
+</div>
+<div>
+  <ng-template #content let-c="close" let-d="dismiss">
+    <div class="modal-header">
+      <h4 class="modal-title" id="modal-basic-title">Profile update</h4>
+      <button type="button" class="close" aria-label="Close" (click)="d('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <form>
+        <div class="form-group">
+          <label for="dateOfBirth">Date of birth</label>
+          <div class="input-group">
+            <input id="dateOfBirth" class="form-control" placeholder="yyyy-mm-dd" name="dp" ngbDatepicker #dp="ngbDatepicker">
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" (click)="dp.toggle()" type="button">
+                <img src="img/calendar-icon.svg" style="width: 1.2rem; height: 1rem; cursor: pointer;"/>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-outline-dark" (click)="c('Save click')">Save</button>
+    </div>
+  </ng-template>
+  
+</div>

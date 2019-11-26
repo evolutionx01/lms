@@ -1,0 +1,270 @@
+<div class="modal-header">
+  <h4 class="modal-title text-uppercase">{{popupTitle}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+
+</div>
+<div class="modal-body">
+  <form [formGroup]="addCustomer">
+    <div class="form-group">
+      <label class="formheader">Primary Information</label>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="custName">Customer Name
+          <span class="mandatory">*</span>
+        </label>
+        <!-- [ngStyle]="{'border-color':addCustomer.controls['customer'].hasError('required') && addCustomer.controls['customer'].touched ? 'red' : '#fd9d0e' }" -->
+        <input (input)="testChange()" [ngStyle]="{'border-color': (addCustomer.controls['customer'].hasError('required') && addCustomer.controls['customer'].touched) || (addCustomer.controls['customer'].hasError('pattern') && addCustomer.controls['customer'].touched) || (addCustomer.controls['customer'].errors && addCustomer.controls['customer'].touched) ? 'red' : '#ced4da' }"
+          type="text" maxlength="500" class="form-control" formControlName="customer" id="custName" placeholder="Enter customer name" required>
+        <small class="text-danger" *ngIf="addCustomer.controls['customer'].hasError('required') && addCustomer.controls['customer'].touched">
+          Customer name is mandatory. </small>
+          <small class="text-danger" *ngIf="addCustomer.controls['customer'].hasError('pattern') && addCustomer.controls['customer'].touched">
+            Special Characters are not allowed. </small>
+            <small class="text-danger" *ngIf="addCustomer.controls['customer'].errors && addCustomer.controls['customer'].touched">
+              Empty space not allowed. </small>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="custLogo">Customer Logo</label>
+        <!-- <span class="mandatory">*</span> -->
+        <div class="custom-file">
+          <input type="file" #uploadLogo class="custom-file-input" id="custLogo" (change)="fileChange($event)" formControlName="customer_logo" placeholder="Browse" accept=".png, .jpg, .jpeg">
+          <label class="custom-file-label" for="custLogo">Choose file</label>
+        </div>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="address">Address</label>
+        <input type="text" class="form-control" formControlName="address" id="address" placeholder="Enter customer address">
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="city">City</label>
+        <input type="text" class="form-control" formControlName="city" id="city" placeholder="Enter city">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="state">State</label>
+        <span class="mandatory">*</span>
+        <ng-select [items]="stateDropdownData" bindLabel="state" placeholder="Select state" bindValue="state_id" formControlName="state">
+        </ng-select>
+        <!-- <select class="form-control" id="state" formControlName="state">
+          <option [value]="states.state_id" *ngFor="let states of stateDropdownData">{{states.state}}</option>
+        </select> -->
+      </div>
+      <div class="form-group col-md-4">
+        <label for="custZip">Zip</label>
+        <input [ngStyle]="{'border-color':addCustomer.controls['zip'].hasError('pattern') && addCustomer.controls['zip'].touched ? 'red' : '#ced4da' }" type="text" class="form-control" formControlName="zip" id="custZip" placeholder="Enter zipcode">
+        <small class="text-danger" *ngIf="addCustomer.controls['zip'].hasError('pattern') && addCustomer.controls['zip'].touched">
+            Only numbers are accepted. </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="formheader">Primary Admin Details</label>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="first_name">First Name
+          <span class="mandatory">*</span>
+        </label>
+        <input [ngStyle]="{'border-color':addCustomer.controls['first_name'].hasError('required') && addCustomer.controls['first_name'].touched ? 'red' : '#ced4da' }"
+          type="text" class="form-control" formControlName="first_name" id="first_name" placeholder="Enter first name">
+        <small class="text-danger" *ngIf="addCustomer.controls['first_name'].hasError('required') && addCustomer.controls['first_name'].touched">
+          First name is mandatory. </small>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="middle_name">Middle Name</label>
+        <input type="text" class="form-control" formControlName="middle_name" id="middle_name" placeholder="Enter middle name">
+
+      </div>
+      <div class="form-group col-md-4">
+        <label for="last_name">Last Name
+          <span class="mandatory">*</span>
+        </label>
+        <input [ngStyle]="{'border-color':addCustomer.controls['last_name'].hasError('required') && addCustomer.controls['last_name'].touched ? 'red' : '#ced4da' }"
+          type="text" class="form-control" formControlName="last_name" id="last_name" placeholder="Enter last name">
+        <small class="text-danger" *ngIf="addCustomer.controls['last_name'].hasError('required') && addCustomer.controls['last_name'].touched">
+          Last name is mandatory. </small>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="phone_num">Phone Number
+          <span class="mandatory">*</span>
+        </label>
+        <input [ngStyle]="{'border-color':addCustomer.controls['phone_num'].hasError('required') && addCustomer.controls['phone_num'].touched ? 'red' : '#ced4da' }"
+        type="text" class="form-control" maxLength="10" formControlName="phone_num" id="phone_num" placeholder="Enter phone number">
+        <small class="text-danger" *ngIf="addCustomer.controls['phone_num'].hasError('required') && addCustomer.controls['phone_num'].touched">
+          Phone number is mandatory. </small>
+        <small class="text-danger" *ngIf="addCustomer.controls['phone_num'].errors?.minlength && addCustomer.controls['phone_num'].touched">
+          Please enter a valid phone. </small>
+          <small class="text-danger" *ngIf="addCustomer.controls['phone_num'].hasError('pattern') && addCustomer.controls['phone_num'].touched">
+           Only numbers are allowed. </small>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="email">Email
+          <span class="mandatory">*</span>
+        </label>
+        <input [ngStyle]="{'border-color':(addCustomer.controls['email'].hasError('required') && addCustomer.controls['email'].touched ) || (addCustomer.controls['email'].hasError('pattern') && addCustomer.controls['email'].touched) ? 'red' : '#ced4da' }"
+          type="email" class="form-control" formControlName="email" id="email" placeholder="Enter email id">
+        <small class="text-danger" *ngIf="addCustomer.controls['email'].hasError('required') && addCustomer.controls['email'].touched">
+          Email is mandatory. </small>
+        <small class="text-danger" *ngIf="addCustomer.controls['email'].hasError('pattern') && addCustomer.controls['email'].touched">
+          Please enter a valid email. </small>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="initial_provider">Initial Provider Count
+          <span class="mandatory">*</span>
+        </label>
+        <input [ngStyle]="{'border-color':addCustomer.controls['initial_provider'].hasError('required') && addCustomer.controls['initial_provider'].touched ? 'red' : '#ced4da' }"
+        type="text" class="form-control" maxLength="10" formControlName="initial_provider" id="initial_provider" placeholder="Enter Initial Provider Count">
+        <small class="text-danger" *ngIf="addCustomer.controls['initial_provider'].hasError('required') && addCustomer.controls['initial_provider'].touched">
+          Initial Provider Count is mandatory. </small>
+        <small class="text-danger" *ngIf="addCustomer.controls['initial_provider'].errors?.minlength && addCustomer.controls['initial_provider'].touched">
+          Please enter a valid Initial Provider Count. </small>
+          <small class="text-danger" *ngIf="addCustomer.controls['initial_provider'].hasError('pattern') && addCustomer.controls['initial_provider'].touched">
+           Only numbers are allowed. </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="formheader">Licenses Information</label>
+    </div>
+    <!-- <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="noUsers">No. of Users</label>
+        <input type="number" class="form-control" id="noUsers" formControlName="no_of_users" placeholder="Enter no.of users">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="noTins">No. of TINs</label>
+        <input type="number" class="form-control" id="noTins" formControlName="no_of_tins" placeholder="Enter no.of TINs">
+      </div>
+      <div class="form-group col-md-4">
+        <label for="noSites">No. of Sites</label>
+        <input type="number" class="form-control" id="noSites" formControlName="no_of_locations" placeholder="Enter no of sites">
+      </div>
+    </div> -->
+    <div class="form-row">
+      <div class="form-group col-md-4">
+
+        <label for="effectiveFrom">Effective From
+          <span class="mandatory">*</span>
+        </label>
+        <div class="input-group">
+          <input [ngStyle]="{'border-color':addCustomer.controls['eff_from'].hasError('required') &&  addCustomer.controls['eff_from'].touched ? 'red' : '#ced4da' }"
+            class="form-control" type="date" name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="eff_from" id="effectiveFrom"
+            placement="top-right" placeholder="yyyy-mm-dd" />
+
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d.toggle()">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+        </div>
+        <small class="text-danger" *ngIf="addCustomer.controls['eff_from'].hasError('required') && addCustomer.controls['eff_from'].touched">
+          Effective Date is mandatory. </small>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="expiresOn">Expires On
+          <span class="mandatory">*</span>
+        </label>
+        <div class="input-group">
+          <input [ngStyle]="{'border-color':addCustomer.controls['expires_on'].hasError('required') &&  addCustomer.controls['expires_on'].touched ? 'red' : '#ced4da' }"
+            class="form-control" type="date" name="dp2" ngbDatepicker #d2="ngbDatepicker" formControlName="expires_on" id="expiresOn"
+            placement="top-right" placeholder="yyyy-mm-dd" />
+
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d2.toggle()">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+        </div>
+        <small class="text-danger" *ngIf="addCustomer.controls['expires_on'].hasError('required') && addCustomer.controls['expires_on'].touched">
+          Expires on Date is mandatory. </small>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="formheader">Contract Information</label>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-4">
+
+        <label for="startDate">Start Date
+          <span class="mandatory">*</span>
+        </label>
+        <div class="input-group">
+          <input [ngStyle]="{'border-color':addCustomer.controls['effective_date_contract'].hasError('required') &&  addCustomer.controls['effective_date_contract'].touched ? 'red' : '#ced4da' }"
+            class="form-control" type="date" name="dp3" ngbDatepicker #d3="ngbDatepicker" formControlName="effective_date_contract"
+            id="startDate" placement="top-right" placeholder="yyyy-mm-dd" />
+
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d3.toggle()">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+        </div>
+        <small class="text-danger" *ngIf="addCustomer.controls['effective_date_contract'].hasError('required') && addCustomer.controls['effective_date_contract'].touched">
+          Effective Date is mandatory. </small>
+      </div>
+      <div class="form-group col-md-4">
+        <label for="renewalDate">Renewal Date
+          <span class="mandatory">*</span>
+        </label>
+        <div class="input-group">
+          <input [ngStyle]="{'border-color':addCustomer.controls['renewal_date_contract'].hasError('required') &&  addCustomer.controls['renewal_date_contract'].touched ? 'red' : '#ced4da' }"
+            class="form-control" type="date" name="dp4" ngbDatepicker #d4="ngbDatepicker" formControlName="renewal_date_contract"
+            id="renewalDate" placement="top-right" placeholder="yyyy-mm-dd" />
+
+          <div class="input-group-append">
+            <button class="btn btn-outline-secondary calendar" (click)="d4.toggle()">
+              <i class="fas fa-calendar-alt"></i>
+            </button>
+          </div>
+        </div>
+        <small class="text-danger" *ngIf="addCustomer.controls['renewal_date_contract'].hasError('required') && addCustomer.controls['renewal_date_contract'].touched">
+          Expires on Date is mandatory. </small>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="noTins">Pay Per Form</label>
+        <!-- <div>
+            <input type="radio" value="yes" formControlName="pay_per_form"> Yes
+            <input type="radio" value="no" formControlName="pay_per_form"> No
+        </div> -->
+        <div class="pt-2">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio" value="yes" formControlName="pay_per_form" id="inlineRadio1">
+            <label class="form-check-label" for="inlineRadio1">Yes</label>
+          </div>
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="radio"value="no" formControlName="pay_per_form" id="inlineRadio2">
+            <label class="form-check-label" for="inlineRadio2">No</label>
+          </div>
+        </div>
+
+
+
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="specialTerms">Special Terms</label>
+        <textarea class="form-control" id="specialTerms" formControlName="special_terms" placeholder="Enter special terms"></textarea>
+      </div>
+
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="addCustomer.invalid" (click)="addCustomerDetails()">{{buttonTitle}}</button>
+  <button *ngIf="!showButton" type="button" class="btn btn-customer btn-sm mx-2" (click)="reset()">Clear</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="activeModal.close('Close click')">Cancel</button>
+
+</div>

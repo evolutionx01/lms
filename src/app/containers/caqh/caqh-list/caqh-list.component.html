@@ -1,0 +1,124 @@
+<div #pageTop class="container-fluid" id="caqhList">
+  <div class="row header margin-bottom">
+    <div class="col-md-6">
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">CAQH</h1>
+    </div>
+  </div>
+
+  <div class="row content mb-4">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="">
+
+          <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Select Customer</label>
+                <ng-select [clearable]="false" (change)="customerChange($event)" [items]="customerList"
+                  bindLabel="customer" bindValue="user_id" placeholder="select customer">
+                </ng-select>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+
+          <!-- <div class="row">
+            <div class="col-md-4">
+              <div class="form-group">
+                <label>Select Customer</label>
+                <ng-select [clearable]="false" (change)="customerChange($event)" [items]="customerList"
+                  bindLabel="customer" bindValue="user_id" placeholder="select customer">
+                </ng-select>
+              </div>
+            </div>
+          </div> -->
+
+          <div class="row">
+            <div class="col-md-8">
+              <div class="d-inline-block pr-1">
+                <!-- <h6 class="page-subheading">List of Customers</h6> -->
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value"
+                    [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <form [formGroup]="searchCustomer">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" formControlName="searchValue"
+                    placeholder="Search for customer name">
+                  <div class="input-group-append">
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid"
+                      (click)="search()">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-search" (click)="clear()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                    <!-- <button class="btn btn-search" (click)="search()">
+                      <i class="fas fa-search"></i>
+                    </button> -->
+                  </div>
+                </div>
+              </form>
+              <!-- <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel"
+                (click)="exportExcel()">
+                <i class="fas fa-download"></i>
+              </button> -->
+            </div>
+
+          </div>
+
+        </div>
+        <div class="content-view">
+
+          <ngx-datatable #provideTable class="material striped" [rows]="providerListData" [columnMode]="'force'"
+            [headerHeight]="37" [footerHeight]="37" [limit]="provLimit" [rowHeight]="'auto'" [externalPaging]="true"
+            [count]="provCount" [offset]="provOffset" (page)="onPage($event)">
+            <ngx-datatable-column name="Provider Name">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.f_name}} {{row.l_name}} </span>
+                <div #firstChild class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'view')">View</div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Provider ID">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.provir_id}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Physician ID">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.physicn_id}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

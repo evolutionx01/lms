@@ -1,0 +1,146 @@
+<div class="container-fluid" id="audit">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fab fa-stack-exchange" aria-hidden="true"></i>
+
+      </button>
+      <h1 class="page-heading">Audit</h1>
+
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="d-inline-block pr-2 ">
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+
+
+
+            </div>
+            <div class="col-md-9">
+              <form [formGroup]="filterAudit">
+
+                <div class="row">
+                  <div class="form-group col-lg-4 col-md-4 mb-0">
+                    <ng-select (change)="onSelectChange($event)" [items]="moduleArray" bindLabel="name" bindValue="id" placeholder="select modules"
+                      formControlName="module">
+                    </ng-select>
+                  </div>
+                  <div class="form-group col-lg-5 col-md-4 mb-0">
+                    <ng-select [items]="AuditFieldArray" bindLabel="label" bindValue="id" placeholder="select fields" formControlName="field">
+                    </ng-select>
+                  </div>
+
+                  <div class="form-group col-lg-3 col-md-4 mb-0 ">
+                    <button class="btn btn-sm btn-search mr-3 "  click-stop-propagation [disabled]="filterAudit.invalid" (click)="search()" type="button">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-sm btn-search " click-stop-propagation [disabled]="filterAudit.invalid" (click)="clear()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                   
+                  </div>
+                </div>
+                <!-- <div class="input-group input-group-sm">
+                    <input type="text" (input)="onSearchChange($event.target.value)" class="form-control" formControlName="searchValue" placeholder="Search for customer name">
+                    <div class="input-group-append">
+                      <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid" (click)="search()" type="button">
+                        <i class="fas fa-search"></i>
+                      </button>
+                      <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid" (click)="clear()" type="button">
+                        <i class="fas fa-redo-alt"></i>
+                      </button>
+                    </div>
+                  </div> -->
+              </form>
+             
+            </div>
+            <div class="col-md-1">
+               <button class="btn btn-sm btn-search float-right" placement="top" ngbTooltip="Download Excel" (click)="exportExcel()" type="button">
+                  <i class="fas fa-download"></i>
+                </button>
+            </div>
+           
+          </div>
+
+        </div>
+        <div class="content-view">
+
+          <ngx-datatable #myTable class="material striped expandable" [rows]="auditData" [columnMode]="'force'" [headerHeight]="37"
+            [footerHeight]="37" [limit]="pageLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)'>
+
+            <ngx-datatable-column name="Module" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.module}} </span>
+
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Action" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.event}} </span>
+
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="User">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <!-- <span>{{row.user_has_one.first_name}} {{row.user_has_one.last_name}}</span> -->
+                {{row.user_has_one['first_name']}}  {{row.user_has_one['last_name']}} 
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Time" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.created_at}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Entity" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.auditable_entity}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+            <ngx-datatable-column name="Old Values" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+               
+                <div *ngFor="let key of row.old_value_key">
+                  <span>{{key}} - {{row.display_old_values[key]}}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="New Values" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div *ngFor="let key of row.new_value_key">
+                  <span>{{key}} - {{row.display_new_values[key]}}</span>
+                </div>
+
+                <div>
+
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

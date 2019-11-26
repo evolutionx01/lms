@@ -1,0 +1,23 @@
+
+@import "~bootstrap/dist/css/bootstrap.css";
+@import "~font-awesome/css/font-awesome.css";
+@import '~ngx-toastr/toastr.css';
+@import '~@swimlane/ngx-datatable/release/index.css';
+@import '~@swimlane/ngx-datatable/release/themes/material.css';
+@import '~@swimlane/ngx-datatable/release/assets/icons.css';
+
+.pdfSection .pdfViewer .page{
+    height: 100% !important;
+    width: 100% !important;
+}
+.toast-container .toast{
+    opacity: 0.8;
+}
+/* All modals header blue and font color white */
+.modal-header{
+    color: white;
+    background: #0062b0;
+}
+.close{
+    color: white;
+}

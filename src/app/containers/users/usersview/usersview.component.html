@@ -1,0 +1,91 @@
+<div class="container-fluid" id="user">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-user-cog" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">Users</h1>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddUser()">ADD USERS</button>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-8">
+              <span class="showLabel">Show</span>
+            
+            <div class="d-inline-block form-group m-0">
+              <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+          </div>
+        </div>
+
+            <div class="col-md-4">
+              <form class="searchBox" [formGroup]="searchuser">
+                <div class="input-group input-group-sm">
+                  <input type="text"  class="form-control" formControlName="searchValue" placeholder="Search for user">
+                  <div class="input-group-append">
+                    <button class="btn btn-search" click-stop-propagation  [disabled]="searchuser.invalid" (click)="searchusers()" >
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchuser.invalid" (click)="clearuser()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+              <button class="btn btn-download btn-sm float-right"  placement="top" ngbTooltip="Download Excel"  (click)="exportExcel()">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="content-view">
+          <ngx-datatable #myTable class="material striped expandable" [rows]="userViewData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+            [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+            <ngx-datatable-column name="User Name"  [width]="300">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div> <span>{{row.username}}</span> </div>
+                <div #firstChild class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked('edit', row, firstChild)">Edit</div>
+                  <div class="px-2">|</div>
+                  <!-- <div class="actionTableItem" (click)="actionClicked('delete', row)">Delete</div> -->
+                  <div class="actionTableItem" (click)="userstatuschange($event,row, firstChild)">{{row.pstatus ? 'Inactivate' : 'Activate'}}</div>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Email ID" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <span >{{row.email}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+           
+            <ngx-datatable-column name="Role" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>  {{row.role}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" >
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <!-- <span>  {{row.case}}</span> -->
+                <span [ngClass]="row.case == 'Active' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                    {{row.case}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

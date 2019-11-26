@@ -1,0 +1,64 @@
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+#user{
+    .margin-bottom{
+        margin-bottom: $margin-bottom;
+    }
+        .page-heading{
+            padding: .50rem .75rem;
+            font-size: 1rem;
+            color:$font-color;
+            display: inline-block;
+            margin-bottom: 0;
+            line-height: 1rem;
+            vertical-align: middle;
+            font-weight: bold;
+
+        }
+        .page-subheading{
+            font-weight: bold;
+            display: inline-block;
+        }
+        .btn-header{
+            @include pageHeader-button($bg-master-button);
+        }
+        .btn-customer{
+            @include button-big($bg-master-button);
+        }
+    
+    .content{
+        .content-card{
+            background: $white;
+            border: $input-border;
+            padding: 0.75rem;
+            .content-header{
+                padding-bottom: 0.75rem;
+                .showLabel{
+                    font-size: .75rem;
+                }
+                h6{
+                    margin-bottom: 0;
+                    line-height: 2rem;
+                    vertical-align: middle;
+                } 
+                .input-group{
+                    .btn-search{
+                        @include button-big($bg-action-button);
+                    }    
+                }  
+                .btn-download{
+                    @include button-download($bg-action-button)
+                }    
+                .searchBox{
+                    width: 90%;
+                    display: inline-block;
+                }  
+                
+               
+            }
+            
+        }
+    }
+    
+}

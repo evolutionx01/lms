@@ -1,0 +1,614 @@
+<div class="container-fluid" id="editCustomer">
+  <div class="row header">
+    <div class="col-md-8">
+      <div class="d-inline-block">
+        <img src="./images/dummy-logo.png" class="img-fluid img-thumbnail rounded-circle img-custom" />
+      </div>
+
+      <div class="px-4 d-inline-block align-middle">
+        <h1 class="page-heading text-capitalize">{{this.editData.customer}}</h1>
+        <p class="cutomerEmail">{{this.editData.email}}</p>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="float-right">
+        <button class="btn btn-header btn-sm" routerLink='/customer'>
+          <i class="fas fa-reply"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="customTab" class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-view p-0">
+          <ngb-tabset (tabChange)="beforeChange($event)">
+            <ngb-tab id="details">
+              <ng-template ngbTabTitle>
+                <h4>Customer Details</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row customForm custom-height">
+                    <div class="col-md-4">
+                      <div class="rowHeader">
+                        Primary Information
+                      </div>
+                      <div>
+                        <div class="d-inline-block align-middle">
+                          <i class="fas fa-user-tie custom-size"></i>
+                        </div>
+
+                        <div class="px-4 d-inline-block align-top">
+                          <h1 class="admin-heading text-capitalize">{{this.editData.first_name +" "+ this.editData.last_name}}</h1>
+                          <p class="admin-phone">{{this.editData.address == null ? '':this.editData.address}}</p>
+                          <p class="admin-phone">{{this.editData.city == null ? '':this.editData.city }}</p>
+                          <p class="admin-phone">{{this.editData.zip == null ? '':this.editData.zip }}</p>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="rowHeader">
+                        Licenses Information
+                      </div>
+                      <div>
+                        <div class="d-inline-block align-middle">
+                          <i class="fas fa-calendar-alt custom-size"></i>
+                        </div>
+                        <div class="px-4 d-inline-block align-middle">
+                          <p class="admin-date text-capitalize">Effective from
+                            <span style="color:#0062b0">{{this.editData.eff_from}}</span>
+                          </p>
+                          <p class="admin-date text-capitalize">Expires on
+                            <span style="color:#0062b0">{{this.editData.expires_on}}</span>
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <div class="rowHeader">
+                        Contract Information
+                      </div>
+                      <div>
+                        <div class="d-inline-block align-middle">
+                          <i class="fas fa-calendar-alt custom-size"></i>
+                        </div>
+                        <div class="px-4 d-inline-block align-middle">
+                          <p class="admin-date text-capitalize">Starts From
+                            <span style="color:#0062b0">{{this.editData.effective_date_contract}}</span>
+                          </p>
+                          <p class="admin-date text-capitalize">Ends on
+                            <span style="color:#0062b0">{{this.editData.renewal_date_contract}}</span>
+                          </p>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="providers">
+              <ng-template ngbTabTitle>
+                <h4>Providers</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'provider')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <form class="searchBox" [formGroup]="searchProvider">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for first name or last name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchProvider.invalid" (click)="onProvSearchChange()">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('prov')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel" (click)="exportProviderExcel()">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-12">
+
+                      <!-- <ngx-datatable #myTable class="material striped expandable" [rows]="custDetails" [columnMode]="'force'" [headerHeight]="37"
+                      [footerHeight]="37" [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+                      (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)"> -->
+                      <ngx-datatable #provideTable class="material striped" [rows]="pData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                        [limit]="provLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="provCount" [offset]="provOffset"
+                        (page)="onPage($event)">
+
+                        <ngx-datatable-column name="Physician ID">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.physicn_id}} </span>
+                            <div #firstChild class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="pDelete('delete', row, firstChild)">Delete</div>
+                              <div class="px-2 divider">|</div>
+                              <div class="actionTableItem" (click)="onProviderStatusChange($event ,row, firstChild)">{{row.pstatus ? 'Inactivate' : 'Activate'}}</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Provider ID ">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.provir_id}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+                        <!-- <ngx-datatable-column name="Provider Email" [width]="300">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span *ngIf="row.provider_portal_status">
+                              <i *ngIf="row.email" class="fas fa-check text-success" placement="top" ngbTooltip="Provider portal status"></i> {{row.email}}</span>
+                            <span *ngIf="!row.provider_portal_status">
+                              <i *ngIf="row.email" class="fas fa-times text-danger" placement="top" ngbTooltip="Provider portal status"></i> {{row.email}}</span>
+                          </ng-template>
+                        </ngx-datatable-column> --> 
+
+                        <ngx-datatable-column name="Email" [width]="300">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span *ngIf="row.email">
+                              <span title="click to edit" *ngIf="!editingProvider[rowIndex + '-name']">
+
+                                <button class="btn btn-sm btn-icon" (click)="editingProvider[rowIndex + '-name'] = true">
+                                  <i class="fas fa-edit"></i>
+
+                                </button>
+                                {{row.email}}
+                                <div class="d-flex flex-row">
+                                  <div class="actionTableItem">{{row.provider_portal_status ? 'Active' : 'Inactive'}}</div>
+                                </div>
+                              </span>
+                              <div class="" *ngIf="editingProvider[rowIndex+ '-name']">
+
+                                <div class="input-group input-group-sm">
+                                  <input autofocus #emailproviderValue class="form-control" type="text" [value]="row.email" />
+                                  <div class="input-group-append">
+                                    <button class="btn btn-sm btn-search" (click)="updateProviderValue(emailproviderValue.value, 'name', rowIndex, row)">
+                                      <i class="fas fa-check"></i>
+                                    </button>
+                                  </div>
+                                </div>
+                              </div>
+                            </span>
+
+                          </ng-template>
+                        </ngx-datatable-column>
+
+
+
+                        <ngx-datatable-column name="Portal Provider Access">
+                          <ng-template let-column="column" ngx-datatable-header-template>
+                            <span style="font-size: .75rem;color: white;vertical-align: top;line-height: .5;">Portal Provider
+                              <br>Access</span>
+
+                          </ng-template>
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <div #fifthChild>
+                              <ui-switch *ngIf="row.portal_user_id != 0" [(ngModel)]="row.provider_portal_status" size="small" color="#0062b0" defaultBgColor="#ced4da"
+                                switchColor="#fff" (change)="onPortalProviderChange($event,row, fifthChild)"></ui-switch>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="First Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.f_name}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Last Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.l_name}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Credentials">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.prov_credential}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Status">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <!-- <span> {{row.prov_active}} </span> -->
+                            <span [ngClass]="row.prov_active == 'Active' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                              {{row.prov_active}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="appUsers">
+              <ng-template ngbTabTitle>
+                <h4>App Users</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'appuser')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <form class="searchBox" [formGroup]="searchAppUser">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for user name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchAppUser.invalid" (click)="onAppSearchChange()">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('appuser')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel" (click)="exportAppUserExcel()">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-12">
+                      <!-- 
+                      <ngx-datatable class="material striped" [rows]="pData" [columnMode]="'force'"
+                      [headerHeight]="37" [footerHeight]="37" [limit]="provLimit" [rowHeight]="'auto'" 
+                      [externalPaging]="true" [count]="provCount" [offset]="provOffset"
+                       (page)="onPage($event)" > -->
+                      <ngx-datatable #myAppUserTable class="material striped" [rows]="aData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                        [rowHeight]="'auto'" [limit]="appLimit" [externalPaging]="true" [count]="appCount" [offset]="appOffset"
+                        (page)="onAppUserPage($event)">
+                        <ngx-datatable-column name="User Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <!-- <span> {{rowIndex+1}} </span> -->
+                            <span>{{row.username}}</span>
+                            <div #secondChild class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="onAppUserChange($event ,row, secondChild)">{{row.astatus ? 'Inactivate' : 'Activate'}}</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Email" [width]="300">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span title="click to edit" *ngIf="!editing[rowIndex + '-name']">
+
+                              <button class="btn btn-sm btn-icon" (click)="editing[rowIndex + '-name'] = true">
+                                <i class="fas fa-edit"></i>
+
+                              </button>
+                              {{row.email}}
+                            </span>
+                            <div class="" *ngIf="editing[rowIndex+ '-name']">
+
+                              <div class="input-group input-group-sm">
+                                <input autofocus #emailValue class="form-control" type="text" [value]="row.email" />
+                                <div class="input-group-append">
+                                  <button class="btn btn-sm btn-search" (click)="updateValue(emailValue.value, 'name', rowIndex, row)">
+                                    <i class="fas fa-check"></i>
+                                  </button>
+                                </div>
+                              </div>
+                            </div>
+
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Role">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.role}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Primary Location">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.address}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Last Login">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.last_visit}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Status">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <!-- <span> {{row.case}} </span> -->
+                            <span [ngClass]="row.case == 'Active' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                              {{row.case}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <!-- <ngx-datatable-column name="Actions">
+                        <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                          <ui-switch [ngModel]="row.astatus" size="small" color="#0062b0" defaultBgColor="#ced4da" switchColor="#fff" (change)="onAppUserChange($event, row)"></ui-switch>
+                        </ng-template>
+                      </ngx-datatable-column> -->
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="accessibleState">
+              <ng-template ngbTabTitle>
+                <h4>Accessible State</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row tabHeader">
+                    <div class="col-md-4">
+                      <form [formGroup]="editState">
+                        <ng-select [items]="stateDropdownData" bindLabel="state" placeholder="Select state" bindValue="state_id" [multiple]="true"
+                          labelForId="state" formControlName="accessible_states" [closeOnSelect]="false">
+                        </ng-select>
+                      </form>
+                    </div>
+                    <div class="col-md-2">
+                      <div class="float-right">
+                        <button type="button" class="btn btn-state btn-sm" click-stop-propagation [disabled]="editState.invalid" (click)="addState()">Add State</button>
+                      </div>
+                    </div>
+                    <div class="col-md-6">
+                      <button type="button" [disabled]="payerBtn" class="btn btn-state btn-sm" (click)="selectAllPayerList()">Select All</button>
+                      <div class="float-right">
+                        <button type="button" [disabled]="payerBtn" class="btn btn-state btn-sm" (click)="savePayerList()">Save Payer</button>
+
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-6">
+                      <ngx-datatable class="material striped" [rows]="accessibleStateData" [columns]="columns" [columnMode]="'force'" [headerHeight]="37"
+                        [footerHeight]="37" [rowHeight]="'auto'" [selected]="selected" [selectionType]="'single'" (select)='onSelect($event)'
+                        [limit]="state_limit" [externalPaging]="true" [count]="state_total_element" [offset]="state_page_number"
+                        (page)="onstatePage($event)">
+                        <ngx-datatable-column name="State Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <div>
+                              <span>{{row.state}}</span>
+                            </div>
+                            <div #accessablestateTable class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="actionAccState('delete', row, accessablestateTable)">Delete</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+
+                      </ngx-datatable>
+                    </div>
+                    <div class="col-md-6">
+
+                      <ngx-datatable class="material striped" [rows]="getPayerData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="0"
+                        [rowHeight]="37" [externalSorting]="true" (sort)="onPayerSort($event)" style="height: 70vh; overflow-y: visible;">
+
+                        <ngx-datatable-column [width]="30" [sortable]="false">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <label class="datatable-checkbox">
+                              <input type="checkbox" [checked]="row.status" (change)="onCheckboxChangeFn($event, row)" />
+                            </label>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Payer Name" [width]="400">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+                            <span>{{row.item_name}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="customerTins">
+              <ng-template ngbTabTitle>
+                <h4>TINS</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'tin')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <form class="searchBox" [formGroup]="searchTin">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for tin name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchTin.invalid" (click)="onTinSearchChange()">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('tin')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel" (click)="exportTinExcel()">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-12">
+                      <ngx-datatable class="material striped" class="material striped" [rows]="listofTinsData" [columns]="columns" [columnMode]="'force'"
+                        [headerHeight]="37" [footerHeight]="37" [externalPaging]="true" [count]="tinCount" [offset]="tinOffset"
+                        [limit]="tinLimit" (page)="onTinPage($event)" [rowHeight]="'auto'">
+                        <ngx-datatable-column name="Tin Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.tin_group_name}}</span>
+                            <div #thirdChild class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="onTinStatusChange($event ,row, thirdChild)">{{row.case == "Active" ? 'Inactivate' : 'Activate'}}</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tin Address">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.address}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tin ID">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.tin}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Status">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <!-- <span>{{row.loc_Active}}</span> -->
+                            <span [ngClass]="row.case == 'Active' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                              {{row.case}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+                      </ngx-datatable>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+            <ngb-tab id="customerLocation">
+              <ng-template ngbTabTitle>
+                <h4>Location</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'location')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <form class="searchBox" [formGroup]="searchLocation">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for Location name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchLocation.invalid" (click)="onLocationSearchChange()">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('location')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <button class="btn btn-download btn-sm float-right" placement="top" ngbTooltip="Download Excel" (click)="exportLocationExcel()">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-12">
+                      <ngx-datatable class="material striped" class="material striped" [rows]="listofLocData" [columns]="columns" [columnMode]="'force'"
+                        [headerHeight]="37" [footerHeight]="37" [externalPaging]="true" [count]="locCount" [offset]="locOffset"
+                        [limit]="locLimit" (page)="onLocPage($event)" [rowHeight]="'auto'">
+                        <ngx-datatable-column name="Practice Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.practice_name}}</span>
+                            <div #forthChild class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="onLocationStatusChange($event ,row, forthChild)">{{row.loc_Active == "Active" ? 'Inactivate' : 'Activate'}}</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="TIN ID">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.tin_id}}</span>
+
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Address">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.practice__add1}} {{row.practice__add2 == null ? '' : row.practice__add2}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="ID">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.location_id}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Status">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <!-- <span>{{row.loc_Active}}</span> -->
+                            <span [ngClass]="row.loc_Active == 'Active' ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                              {{row.loc_Active}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                      </ngx-datatable>
+                    </div>
+
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>

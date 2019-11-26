@@ -1,0 +1,112 @@
+<div class="container-fluid" id="group">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-layer-group"></i>
+      </button>
+      <h1 class="page-heading">Groups</h1>
+
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-group btn-sm float-right" (click)="openAddGroup()">Add Group</button>
+
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-3">
+              <div class="d-inline-block pr-1">
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+
+            <div class="col-md-9">
+
+              <form class="searchBox" [formGroup]="searchGroup">
+                <div class="row">
+                  <div class="form-group col-md-3"></div>
+                  <div class="form-group col-md-4 mb-0">
+                    <ng-select [items]="formType" bindLabel="item_name" bindValue="item_id" placeholder="select type" formControlName="type_id">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-5 mb-0">
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for group name">
+                      <div class="input-group-append">
+                        <button class="btn btn-search" click-stop-propagation [disabled]="searchGroup.invalid" (click)="search()" >
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search"  (click)="clear()" type="button">
+                          <i class="fas fa-sync-alt"></i>
+                        </button>
+                      </div>
+                
+                    </div>
+                  </div>
+                  </div>
+              </form>
+              <button class="btn btn-download btn-sm float-right ml-1"  placement="top" ngbTooltip="Download Excel"  (click)="exportExcel()">
+                <i class="fas fa-download"></i>
+              </button>
+
+            </div>
+          </div>
+
+        </div>
+        <div class="content-view">
+          <!-- <ngx-datatable #myTable class="material striped expandable" [rows]="custDetails" [columnMode]="'force'" [headerHeight]="37"
+          [footerHeight]="37" [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+          (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)"> -->
+          <ngx-datatable #myGroupTable class="material striped" [rows]="formGroupData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+            [limit]="pageLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+            <ngx-datatable-column name="Order ID" [sortable]="true" [width]='100'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <span>{{row.order_id}}</span>
+                </div>
+
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Group Name" [sortable]="true" [width]='700'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <span>{{row.group_name}}</span>
+                </div>
+                <div #fromGroupView class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'view')">Sub Group</div>
+                  <div class="px-2 divider">|</div>
+                  <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'edit')">Edit</div>
+                  <div class="px-2 divider">|</div>
+                  <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'delete')">Delete</div>
+                  <div class="px-2 divider">|</div>
+                  <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'reorder')">Re-Order</div>
+                </div>
+
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Type" [sortable]="false" [width]='400'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.type}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+<div class="container-fluid" id="formlist">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+      <button class="btn btn-header btn-sm">
+        <i class="fab fa-wpforms" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">Form Builder</h1>
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-formlist btn-sm float-right" (click)="openAddform()">Upload Form</button>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-2">
+              <div class="d-inline-block pr-2 ">
+                <!-- <h6 class="page-subheading">List of Forms</h6> -->
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-10">
+              <form class="searchBox" [formGroup]="showlist">
+                <div class="row">
+                  <div class="form-group col-md-3 mb-0">
+                    <ng-select [items]="payerdata" bindLabel="item_name" bindValue="item_id" placeholder="Payer" formControlName="payer">
+                    </ng-select>
+                  </div>
+
+                  <div class="form-group col-md-3 mb-0">
+                    <ng-select [items]="statedata" bindLabel="state" bindValue="state_id" placeholder="State" formControlName="state">
+                    </ng-select>
+                  </div>
+
+                  <div class="form-group col-md-2 mb-0">
+                    <ng-select [items]="formtypedata" bindLabel="form_type" bindValue="form_type_id" placeholder="Form Type" formControlName="form_type">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-4 mb-0" id="searchformid">
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" placeholder="Search for form name" formControlName="searchValue">
+                      <div class="input-group-append">
+                        <button class="btn btn-search" click-stop-propagation (click)="searchformname()">
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search" click-stop-propagation (click)="clearformname()" type="button">
+                          <i class="fas fa-redo-alt"></i>
+                        </button>
+                      </div>
+                    
+                    </div>
+                  </div>
+                </div>
+              </form>
+              <button class="btn btn-download btn-sm float-right ml-1"  placement="top" ngbTooltip="Download Excel"  (click)="exportExcel($event)">
+                <i class="fas fa-download"></i>
+              </button>
+            </div>
+          </div>
+
+
+        </div>
+        <div class="content-view">
+          <ngx-datatable #formTable class="material striped" [rows]="formBuilderData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+            [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)="setPage($event)" [externalSorting]="true" (sort)="onSort($event)">
+
+            <ngx-datatable-column name="Form Name">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <span>{{row.form_name}}</span>
+                </div>
+                <div #formViewDT class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked('edit',row,formViewDT)">Edit</div>
+                  <div class="px-2">|</div>
+
+                  <div class="actionTableItem" (click)="actionClicked('delete',row,formViewDT)">Delete</div>
+
+                  <div class="px-2" *ngIf="row.form_status != 'Pending'">|</div>
+                  <div class="actionTableItem" *ngIf="row.form_status != 'Pending'" (click)="actionClicked('map', row)">Map</div>
+
+                </div>
+
+
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Form Type" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.form_type}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Payer">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.payer}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="State" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.state}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created On">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span> {{row.created_on}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Status" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span [ngClass]="row.status_class" class="badge badge-pill width-100">
+                  {{row.form_status}} </span>
+              </ng-template>
+            </ngx-datatable-column>
+            
+            <ngx-datatable-column name="Esign Form" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+              <div  class="d-flex flex-row">
+                <div > <ui-switch size="small" defaultBgColor="red" [(ngModel)]="row.show_file" *ngIf="row.form_status == 'Published'" (change)="onChangetoggle($event,row)"></ui-switch></div>
+                <div *ngIf="row.form_status != 'Pending'" (click)="openesignform(row)"> <span class="mx-2"><i class="fas fa-ellipsis-v" style="font-size:16px;padding-top:.25rem"></i></span></div>
+                </div>
+            </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </div>
+
+      </div>
+    </div>
+  </div>

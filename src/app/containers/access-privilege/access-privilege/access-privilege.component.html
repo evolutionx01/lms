@@ -1,0 +1,15 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header">
+  <h4 class="modal-title">Please Confirm!!!</h4>
+</div>
+<div class="modal-body">
+  <p>Do you want to {{dataStatus.action}} the
+    <b>{{dataStatus.name}}</b> access of the customer
+    <b>{{dataStatus.customer}}</b>
+  </p>
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('yes')">Yes</button>
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('no')">No</button>
+</div>

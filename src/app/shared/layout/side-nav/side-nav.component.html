@@ -1,0 +1,198 @@
+<div [ngClass]="toggledStatus ? '' : 'toggled'" class="sidebar navbar-nav ">
+  <div id="main-wrapper" [ngClass]="toggledStatus ? '' : 'mini-sidebar'">
+    <aside class="left-sidebar">
+      <!-- Sidebar scroll-->
+      <ng-scrollbar autoHide="true" autoUpdate="true">
+        <!-- Content -->
+        <!-- id="formGroup" id="formmodule" -->
+        <div class="scroll-sidebar">
+          <!-- Sidebar navigation-->
+          <nav class="sidebar-nav">
+            <!-- <ul id="sidebarnav">
+              <li *ngFor="let item of menuTest" class="sidebar-item">
+
+
+                <a *ngIf="!item.modules" class="sidebar-link waves-effect waves-dark sidebar-link" [routerLinkActive]="['active']" routerLink="{{item.url}}"
+                  aria-expanded="false">
+                  <i class="{{item.class}}"></i>
+                  <span class="hide-menu">{{item.module_name}}</span>
+                </a>
+
+
+                <a *ngIf="item.modules" class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" data-toggle="collapse" href="#{{item.module_id}}"
+                  aria-expanded="false" aria-controls="formGroup">
+                  <i class="{{item.class}}"></i>
+                  <span class="hide-menu">{{item.module_name}}</span>
+                </a>
+                <ul *ngIf="item.modules" id="{{item.module_id}}" aria-expanded="false" class="collapse  first-level">
+                  <li *ngFor="let sub of item.modules" class="sidebar-item">
+                    <a class="sidebar-link" [routerLinkActive]="['active']" routerLink="{{sub.url}}">
+                      <i class="{{sub.class}}"></i>
+                      <span class="hide-menu">{{sub.module_name}}</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+            </ul> -->
+            <ul id="sidebarnav">
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/dashboard" aria-expanded="false">
+                  <i class="fas fa-tachometer-alt"></i>
+                  <span class="hide-menu">Dashboard</span>
+                </a>
+              </li>
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/customer" aria-expanded="false">
+                  <i class="fas fa-users"></i>
+                  <span class="hide-menu">Customers</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" data-toggle="collapse" href="#formGroup" aria-expanded="false"
+                  aria-controls="formGroup">
+                  <i class="fas fa-folder"></i>
+                  <span class="hide-menu">Groups</span>
+                </a>
+                <ul id="formGroup" aria-expanded="false" class="collapse  first-level">
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link" routerLink="/groups">
+                      <i class="fas fa-layer-group"></i>
+                      <span class="hide-menu">Form Group</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link" routerLink="/dropdown">
+                      <i class="far fa-caret-square-down"></i>
+                      <span class="hide-menu"> Drop Down</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" data-toggle="collapse" href="#formmodule" aria-expanded="false"
+                  aria-controls="formGroup">
+                  <i class="fab fa-wpforms"></i>
+                  <span class="hide-menu">Form Builder</span>
+                </a>
+                <ul id="formmodule" aria-expanded="false" class="collapse  first-level">
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/formlist/view" aria-expanded="false">
+                      <i class="fas fa-file-alt"></i>
+                      <span class="hide-menu">Forms</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/formlist/browser" aria-expanded="false">
+                      <i class="fa fa-id-badge"></i>
+                      <span class="hide-menu">Forms in Browser</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/formlist/portalform" aria-expanded="false">
+                      <i class="fa fa-id-badge"></i>
+                      <span class="hide-menu">Provider Portal Forms</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/caqhview" aria-expanded="false">
+                  <i class="fas fa-users"></i>
+                  <span class="hide-menu">CAQH</span>
+                </a>
+              </li>
+              <li class="sidebar-item">
+                <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" data-toggle="collapse" href="#data" aria-expanded="false"
+                  aria-controls="data">
+                  <i class="fas fa-folder"></i>
+                  <span class="hide-menu">Data Management</span>
+                </a>
+                <ul id="data" aria-expanded="false" class="collapse  first-level">
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link" routerLink="/data/migration">
+                      <i class="fas fa-layer-group"></i>
+                      <span class="hide-menu">Data Migration</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link" routerLink="/data/import">
+                      <i class="far fa-caret-square-down"></i>
+                      <span class="hide-menu"> Data Import</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link" routerLink="/data/caqh">
+                      <i class="far fa-caret-square-down"></i>
+                      <span class="hide-menu"> CAQH Import</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <!-- <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/caqh" aria-expanded="false">
+                  <i class="fas fa-file-upload"></i>
+                  <span class="hide-menu">CAQH</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                  <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/dataimport" aria-expanded="false">
+                    <i class="fas fa-file-upload"></i>
+                    <span class="hide-menu">Data Import</span>
+                  </a>
+                </li> -->
+
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/access_privilege" aria-expanded="false">
+                  <i class="fas fa-user-cog"></i>
+                  <span class="hide-menu">Access Privilege</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item">
+                <a class="sidebar-link has-arrow waves-effect waves-dark sidebar-link" data-toggle="collapse" href="#usermodule" aria-expanded="false"
+                  aria-controls="formGroup">
+                  <i class="fas fa-user-edit"></i>
+                  
+                  <span class="hide-menu">User Management</span>
+                </a>
+                <ul id="usermodule" aria-expanded="false" class="collapse  first-level">
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/user/user_details" aria-expanded="false">
+                      <i class="fas fa-user-tie"></i>
+                      <span class="hide-menu">Users</span>
+                    </a>
+                  </li>
+                  <li class="sidebar-item" [routerLinkActive]="['active']">
+                    <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/user/role_details" aria-expanded="false">
+                      <i class="fas fa-users-cog"></i>
+                      <span class="hide-menu">Roles</span>
+                    </a>
+                  </li>
+                </ul>
+              </li>
+
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/audit" aria-expanded="false">
+                  <i class="fab fa-stack-exchange"></i>
+                  <span class="hide-menu">Audit</span>
+                </a>
+              </li>
+
+              <li class="sidebar-item" [routerLinkActive]="['active']">
+                <a class="sidebar-link waves-effect waves-dark sidebar-link" routerLink="/reports" aria-expanded="false">
+                  <i class="fas fa-chart-bar"></i>
+                  <span class="hide-menu">Reports</span>
+                </a>
+              </li>
+
+            </ul>
+          </nav>
+          <!-- End Sidebar navigation -->
+        </div>
+      </ng-scrollbar>
+      <!-- End Sidebar scroll-->
+    </aside>
+  </div>
+</div>

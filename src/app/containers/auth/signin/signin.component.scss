@@ -1,0 +1,121 @@
+@import url(https://fonts.googleapis.com/css?family=Dancing+Script|Roboto);
+
+
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+* {
+  box-sizing: border-box;
+  &:after, &:before {
+    box-sizing: border-box;
+  }
+}
+
+header{
+  padding: 1rem;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.15);
+}
+
+.box {
+ width: 350px;
+  
+  background: #fff;
+  height: 100%;
+  display: block;
+  box-shadow: 0 10px 15px rgba(41, 24, 24, 0.15);
+  transition: 0.3s;
+  position: relative;
+  z-index: 500;
+  border: 1px solid #eee;
+}
+form{
+  padding: 20px 40px;
+}
+.loginHeader{
+  padding: 15px;
+  font-size: 18px;
+  font-weight: bold;
+  box-shadow: 0 0 0 1px #e5e5e5;
+  text-align: center;
+  margin-bottom: 20px;
+  border-bottom: 2px solid $bg-master-button;
+}
+
+
+.btn {
+  background: #fff;
+  padding: 5px;
+  width: 100%;
+  
+  border: 1px solid $bg-master-button;
+  margin-top: 25px;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 50px $bg-master-button inset;
+  color: #fff;
+  // &:hover {
+  //   box-shadow: 0 0 $bg-master-button inset;
+  //   color: $bg-master-button;
+  // }
+  // &:focus {
+  //   outline: none;
+  // }
+}
+
+.form-group {
+  position: relative;
+  font-size: 15px;
+  color: #666;
+  + .form-group {
+    margin-top: 30px;
+  }
+  .form-label {
+    position: absolute;
+    z-index: 1;
+    left: 0;
+    top: 5px;
+    transition: 0.3s;
+  }
+  .checked{
+    font-size: 12px;
+      color: $bg-master-button;
+      -webkit-transform: translateY(-20px);
+      transform: translateY(-20px);
+  }
+  .form-control {
+    width: 100%;
+    position: relative;
+    z-index: 3;
+    height: 35px;
+    background: none;
+    border: none;
+    padding: 5px 0;
+    transition: 0.3s;
+    border-bottom: 1px solid #777;
+    color: #555;
+    border-radius: 0;
+    &:invalid {
+      outline: none;
+    }
+    &:focus , &:valid{
+      outline: none;
+      box-shadow: 0 1px $bg-master-button;
+      border-color: $bg-master-button;
+    }
+    &:focus + .form-label, &:valid + .form-label{
+      font-size: 12px;
+      color: $bg-master-button;
+      -webkit-transform: translateY(-20px);
+      transform: translateY(-20px);
+    }
+  }
+}
+
+
+.my-flex-container {
+  min-height: calc(100vh - 50px);
+}
+
+
+
+

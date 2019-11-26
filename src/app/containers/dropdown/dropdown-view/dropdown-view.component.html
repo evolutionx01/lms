@@ -1,0 +1,95 @@
+<div class="container-fluid" id="dropdown">
+    <div class="row header margin-bottom">
+      <div class="col-md-6 ">
+  
+        <button class="btn btn-header btn-sm">
+          <i class="fas fa-users"></i>
+        </button>
+        <h1 class="page-heading">Dropdown</h1>
+  
+      </div>
+      <div class="col-md-6">
+        <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddDropdown()">Add Dropdown</button>
+  
+      </div>
+    </div>
+  
+    <div class="row content">
+      <div class="col-md-12">
+        <div class="content-card">
+  
+          <div class="content-header">
+            <div class="row">
+              <div class="col-md-8">
+                <div class="d-inline-block pr-1">
+                  <!-- <h6 class="page-subheading">List of Customers</h6> -->
+                  <span class="showLabel">Show</span>
+                </div>
+                <div class="d-inline-block form-group m-0">
+                  <select class="form-control" (change)="onLimitChange($event.target.value)">
+                    <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                      {{ option.value }}
+                    </option>
+                  </select>
+                </div>
+  
+  
+  
+              </div>
+              <div class="col-md-4">
+                <form [formGroup]="searchDropdown">
+                  <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for dropdown name">
+                    <div class="input-group-append">
+                      <button class="btn btn-search" click-stop-propagation [disabled]="searchDropdown.invalid" (click)="search()">
+                        <i class="fas fa-search"></i>
+                      </button>
+                      <button class="btn btn-search" (click)="clear()" type="button">
+                        <i class="fas fa-redo-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+  
+          </div>
+          <div class="content-view">
+            <!-- [externalSorting]="true" (sort)="onSort($event)-->
+  
+            <ngx-datatable #myDropdownTable class="material striped expandable" [rows]="dropdownData" [columnMode]="'force'" [headerHeight]="37"
+              [footerHeight]="37" [limit]="pageLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+              (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+  
+              <ngx-datatable-column name="Dropdown Name">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    <span>{{row.drop_down_name}}</span>
+                  </div>
+                  <div #firstChild class="d-flex flex-row">
+                  
+                    <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'edit')">Edit</div>
+                    <div class="px-2 divider">|</div>
+                    <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'export')">Download</div>
+                  </div>
+  
+                </ng-template>
+              </ngx-datatable-column>
+  
+              <ngx-datatable-column name="Created By" [sortable]="false">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <span>{{row.user_name }}</span>
+                </ng-template>
+              </ngx-datatable-column>
+  
+              <ngx-datatable-column name="Created on" [sortable]="false">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <span> {{row.created_on}} </span>
+                </ng-template>
+              </ngx-datatable-column>
+            </ngx-datatable>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

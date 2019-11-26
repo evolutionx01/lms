@@ -1,0 +1,204 @@
+<div class="container-fluid" id="report">
+  <div class="row header">
+    <div class="col-md-8">
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">Reports</h1>
+    </div>
+  </div>
+
+  <div id="customTab" class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-view p-0">
+          <ngb-tabset (tabChange)="beforeChange($event)">
+            <ngb-tab id="unlogged">
+              <ng-template ngbTabTitle>
+                <h4>Visitors not logged in</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'unlogged')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <!-- <form [formGroup]="searchUnLogged">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for first name or last name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchIpa.invalid" (click)="onProvSearchChange()" type="button">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('prov')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form> -->
+                      <button class="btn btn-download btn-sm float-right"  placement="top" ngbTooltip="Download Excel"  (click)="exportNotVisitedLogExcel($event)">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+
+                    <div class="col-md-12">
+                      <ngx-datatable #unloggedTable class="material striped" [rows]="unloggedReportData" [columnMode]="'force'" [headerHeight]="37"
+                        [footerHeight]="37" [limit]="unloggedLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="unloggedCount"
+                        [offset]="unloggedPageNumber" (page)="onUnloggedPage($event)">
+
+                        <ngx-datatable-column name="Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.name}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Email">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.email}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Customer">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.customer}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Last Visit">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.to_char}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="logged">
+              <ng-template ngbTabTitle>
+                <h4>Visitors logged in</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <!-- <form [formGroup]="searchUnLogged">
+                        <div class="form-group col-md-4 p-0 mt-4">
+                          <label for="state">Customer</label>
+                          <ng-select [clearable]="false" [items]="customerList" bindLabel="customer" placeholder="Select customer" bindValue="user_id" (change)=onCustomerChange($event) formControlName="customer_id">
+                          </ng-select>
+                        </div>
+                      </form> -->
+                    </div>
+                  </div>
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'logged')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <form class="searchBox" [formGroup]="searchLogged">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for customer name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchLogged.invalid" (click)="loggedSearch()">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="loggedClear()" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form>
+                      <button class="btn btn-download btn-sm float-right"  placement="top" ngbTooltip="Download Excel"  (click)="exportVisitedLogExcel()">
+                        <i class="fas fa-download"></i>
+                      </button>
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-12">
+
+                      <!-- <ngx-datatable #unloggedTable class="material striped" [rows]="unloggedReportData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                        [limit]="unloggedLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="unloggedCount" [offset]="unloggedPageNumber"
+                        (page)="onUnloggedPage($event)"> -->
+
+                      <ngx-datatable #loggedTable class="material striped" [rows]="loggedReportData" [columnMode]="'force'" [headerHeight]="37"
+                        [footerHeight]="37" [limit]="loggedLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="loggedCount"
+                        [offset]="loggedPageNumber" (page)="onLoggedPage($event)" [externalSorting]="true" (sort)="onLoggedSort($event)">
+
+
+                        <ngx-datatable-column name="Name" [sortable]="false">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.user_name}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Customer" [sortable]="true">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.customer_name}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Email" [sortable]="false">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span>{{row.customer_name}}</span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Hours/Day" [sortable]="false">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.hours_spent_per_day}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Hours/Week" [sortable]="false">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.hours_spent_per_week}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Hours/Month" [sortable]="false">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.hours_spent_per_month}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+          </ngb-tabset>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>

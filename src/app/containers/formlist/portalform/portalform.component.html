@@ -1,0 +1,97 @@
+<div class="container-fluid" id="formlist">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+      <button class="btn btn-header btn-sm">
+        <i class="fab fa-wpforms" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">Provider Portal Form</h1>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-4">
+              <div class="d-inline-block pr-2 ">
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-8">
+              <form [formGroup]="showlist">
+                <div class="row">
+                    <div class="form-group col-md-3 mb-0"></div>
+                  <div class="form-group col-md-4 mb-0">
+                    <ng-select [items]="customerdata" [clearable]="false" bindLabel="customer" bindValue="user_id" placeholder="Select Customer Name" formControlName="customer"
+                      (change)="changecustomer()">
+                    </ng-select>
+                  </div>
+                  <div class="col-md-5 mb-0" id="searchformid">
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" placeholder="Search for form name" formControlName="searchValue">
+                      <div class="input-group-append">
+                        <button class="btn btn-search" click-stop-propagation [disabled]="showlist.invalid" (click)="searchformname()" >
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search" (click)="clearformname()" type="button">
+                          <i class="fas fa-redo-alt"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+        <div class="content-view">
+            <ngx-datatable class="material striped" [rows]="providerportalform" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+              [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber" (page)="setPage($event)"
+              [externalSorting]="true" (sort)="onSort($event)">
+        
+              <ngx-datatable-column name="Form Name">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    <span class="text-capitalize">{{row.form_name}}</span>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+        
+              <ngx-datatable-column name="Provider Portal Form" [sortable]="false">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <div>
+                    <ui-switch defaultBgColor="red" size="small" [(ngModel)]="row.show_portal" (change)="onportaltoggle($event,row,'provider_portal')"></ui-switch>
+                  </div>
+                </ng-template>
+              </ngx-datatable-column>
+        
+              <ngx-datatable-column name="Provider Worksheet">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <span>
+                    <div>
+                      <ui-switch defaultBgColor="red" size="small" [(ngModel)]="row.show_worksheet" *ngIf="row.customer_id == 0" (change)="onportaltoggle($event,row,'provider_worksheet')"></ui-switch>
+                    </div>
+                  </span>
+                </ng-template>
+              </ngx-datatable-column>
+        
+            </ngx-datatable>
+          </div>
+      </div>
+    </div>
+  </div>
+
+
+
+ 
+
+</div>

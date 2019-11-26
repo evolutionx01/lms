@@ -1,0 +1,73 @@
+<header>
+  <div class="d-flex justify-content-center">
+    <img src="./images/logo.png" class="img-fluid" alt="">
+  </div>
+</header>
+<section>
+  <div class="container">
+    <div class="d-flex my-flex-container justify-content-center">
+      <div class="p-2 align-self-center">
+        <div class="row">
+          <div class="col-md-12">
+            <ng-container *ngIf="!otpView">
+              <div class="box">
+                <div class="loginHeader">
+                  <span>Login</span>
+                </div>
+                <form [formGroup]="loginForm">
+                  <div class="form-group">
+                    <input autofocus type="email" class="form-control" id="inputEmail" required formControlName="email">
+                    <label class="form-label" [ngClass]="loginForm.controls['email'].hasError('pattern') ? 'checked' : 'unchecked'">Email Id </label>
+                    <small class="text-danger" *ngIf="loginForm.controls['email'].hasError('required') && loginForm.controls['email'].touched">
+                      Email is required. </small>
+                    <small class="text-danger" *ngIf="loginForm.controls['email'].hasError('pattern') && loginForm.controls['email'].touched">
+                      Please enter a valid email. </small>
+                  </div>
+
+                  <div class="form-group">
+                    <input id="password" type="password" class="form-control" required formControlName="password" />
+                    <label class="form-label">Password</label>
+                    <small class="text-danger" *ngIf="loginForm.controls['password'].hasError('required') && loginForm.controls['password'].touched">
+                      Password is required. </small>
+                  </div>
+                  <div class="form-group pb-3">
+                    <button class="btn" click-stop-propagation [disabled]="loginForm.invalid" (click)="onLogin()">Login</button>
+                  </div>
+
+                </form>
+
+              </div>
+            </ng-container>
+            <ng-container *ngIf="otpView">
+              <div class="box">
+                <div class="loginHeader">
+                  <span>Enter One Time Password</span>
+                </div>
+                <form [formGroup]="otpForm">
+                  <div class="form-group">
+                      <p>One Time Password (OTP) has been sent to your mobile *****{{lastNumber}}, please enter the same here to login.</p>
+                  </div>
+                  <div class="form-group">
+                    <input type="text" class="form-control" (input)="onOtpChange($event)" id="inputOtp" required formControlName="otp">
+                    <label class="form-label">Enter OTP</label>
+                    <small class="text-danger" *ngIf="otpErrorMessage">
+                          Please enter valid OTP. </small>
+   
+                  </div>
+                  <div class="form-group">
+                    <p>OTP will expire in <span style="color:red;font-weight: bold">{{timeLeft}}</span> second(s)</p>
+                    <button *ngIf="showResendButton" class="btn btn-sm" (click)="resendOtp()">Resend OTP</button>
+                  </div>
+                  <div class="form-group pb-3">
+                      <button class="btn btn-primary" click-stop-propagation [disabled]="otpForm.invalid" (click)="onOtpVerify()">Verify</button>
+                    </div>
+                </form>
+              </div>
+            </ng-container>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>

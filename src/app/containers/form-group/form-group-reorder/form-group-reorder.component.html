@@ -1,0 +1,47 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header">
+  <h4 class="modal-title">{{popupTitle}}</h4>
+  <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button> -->
+</div>
+<div class="modal-body">
+  <form [formGroup]="reorderForm">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="state">Current Position</label>
+        <input type="text" class="form-control" formControlName="old_order_id">
+
+      </div>
+      <!-- <div class="form-group col-md-6">
+        <label for="state">Position to be moved</label>
+
+        <input type="text" onkeypress="validateNumber($event)" class="form-control" formControlName="new_order_id" [ngStyle]="{'border-color': (reorderForm.controls['new_order_id'].hasError('required') && reorderForm.controls['new_order_id'].touched) || (reorderForm.controls['new_order_id'].hasError('pattern') && reorderForm.controls['new_order_id'].touched) ? 'red' : '#ced4da' }">
+        <small class="text-danger" *ngIf="reorderForm.controls['new_order_id'].hasError('required') && reorderForm.controls['new_order_id'].touched">
+          Position to be moved is mandatory. </small>
+          <small class="text-danger" *ngIf="reorderForm.controls['new_order_id'].hasError('pattern') && reorderForm.controls['new_order_id'].touched">
+           only numbers are not allowed. </small>
+      </div> -->
+      <div class="form-group col-md-6">
+          <label for="state">Position to be moved</label>
+
+        <div class="input-group">
+            <input type="text" onkeypress="validateNumber($event)" class="form-control" formControlName="new_order_id" [ngStyle]="{'border-color': (reorderForm.controls['new_order_id'].hasError('required') && reorderForm.controls['new_order_id'].touched) || (reorderForm.controls['new_order_id'].hasError('pattern') && reorderForm.controls['new_order_id'].touched) ? 'red' : '#ced4da' }">
+          <div class="input-group-append">
+            <span class="input-group-text">of {{dataStatus.total_count}}</span>
+          </div>
+        </div>
+        <small class="text-danger" *ngIf="reorderForm.controls['new_order_id'].hasError('required') && reorderForm.controls['new_order_id'].touched">
+            Position to be moved is mandatory. </small>
+            <small class="text-danger" *ngIf="reorderForm.controls['new_order_id'].hasError('pattern') && reorderForm.controls['new_order_id'].touched">
+             only numbers are not allowed. </small>
+      </div>
+    </div>
+
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-custom-status btn-sm" click-stop-propagation [disabled]="reorderForm.invalid" (click)="actionClicked('save')">Save</button>
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('cancel')">Cancel</button>
+</div>

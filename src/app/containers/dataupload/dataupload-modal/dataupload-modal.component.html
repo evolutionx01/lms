@@ -1,0 +1,11 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header" >
+  <h4 class="modal-title">Please Confirm !!</h4>
+</div>
+<div class="modal-body">
+  <p>CAQH is not matching! Do you want to continue? </p>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('yes')">Yes</button>
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('no')">No</button>
+</div>

@@ -1,0 +1,152 @@
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+#datamigration{
+    h4{
+        font-weight: normal !important;
+    }
+
+    .mandatory{
+        color: red;
+    }
+
+    #dataStep{
+        .progressTitle{
+            padding: 2rem 0; 
+        }
+
+        span.round-tab {
+            width: 70px;
+            height: 70px;
+            line-height: 70px;
+            display: block;
+            border-radius: 100px;
+            background: #fff;
+            border: 2px solid #e0e0e0;
+            z-index: 2;
+            position: relative;
+            left: 0;
+            text-align: center;
+            font-size: 25px;
+            &:hover{
+                color: $bg-master-button;
+                border: 2px solid $bg-master-button;
+                i{
+                    color: $bg-master-button;
+                }
+            }
+            i{
+                color: #e0e0e0;
+                &:hover{
+                    color: $bg-master-button;
+                }
+            }
+        }
+
+        .card{
+            border: $input-border;
+            .card-header{
+                border-bottom: $input-border;
+                background-color:$bg-action-button;
+                color: $white;
+            }
+            .card-footer{
+                padding: 0.5rem;
+                background-color: $white;
+                border-top: $input-border;
+                .btn-migration{
+                    @include button-big($bg-action-button);
+                }
+            }
+            .btn-migration{
+                @include button-big($bg-action-button);
+            }
+        }
+        
+
+        
+    }
+    .margin-bottom{
+        margin-bottom: $margin-bottom;
+    }
+    .custom-font{
+        font-size: 1rem;
+    }
+        .page-heading{
+            padding: .50rem .75rem;
+            font-size: 1rem;
+            color:$font-color;
+            display: inline-block;
+            margin-bottom: 0;
+            line-height: 1rem;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+        .page-subheading{
+            font-weight: bold;
+            display: inline-block;
+        }
+        .showLabel{
+            font-size: .75rem;
+        }
+        .btn-header{
+            @include pageHeader-button($bg-master-button);
+        }
+        .btn-customer{
+            @include button-big($bg-master-button);
+            // font-weight: bold;
+        }
+    
+    .content{
+        .content-card{
+            background: $white;
+            border: $input-border;
+            padding: 0.75rem;
+            .content-header{
+                padding-bottom: 0.75rem;
+                h6{
+                    margin-bottom: 0;
+                    line-height: 2rem;
+                    vertical-align: middle;
+                } 
+                .input-group{
+                    .btn-search{
+                        @include button-big($bg-action-button);
+                    }    
+                }
+                .btn-download{
+                    @include button-download($bg-action-button)
+                }    
+                .searchBox{
+                    width: 90%;
+                    display: inline-block;
+                }
+                
+               
+            }
+            .content-view{
+                .wizard{
+                    .connecting-line {
+                        height: 2px;
+                        background: #e0e0e0;
+                        position: absolute;
+                        width: 70%;
+                        margin: 0 auto;
+                        left: 0;
+                        right: 0;
+                        top: 43%;
+                       
+                    }
+                    .nav-tabs {
+                        position: relative;
+                        margin-bottom: 0;
+                        border-bottom: none;
+                    }
+                }
+     
+            }
+            
+        }
+    }
+    
+}

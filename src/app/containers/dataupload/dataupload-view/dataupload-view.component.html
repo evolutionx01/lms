@@ -1,0 +1,236 @@
+<div #pageTop class="container-fluid" id="dataupload">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">CAQH Upload</h1>
+
+    </div>
+    <!-- <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddProvider()">Add Provider</button>
+
+    </div> -->
+  </div>
+
+  <div id="customTabSet" class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+       
+        <div class="content-view pb-2">
+          <ngb-tabset (tabChange)="beforeChange($event)" [orientation]="'vertical'">
+            <ngb-tab id="insert">
+              <ng-template ngbTabTitle>
+                <h4>CAQH Insert</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <form [formGroup]="createProvider">
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="state">Customer</label>
+                              <ng-select [items]="customerDropdownData" [virtualScroll]="true" (ngModelChange)=onCustomerChange($event) bindLabel="customer"
+                                placeholder="Select a customer" bindValue="customer_id" formControlName="customer_ids">
+                              </ng-select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="state">TIN</label>
+                              <ng-select [items]="tinDropdownData" [virtualScroll]="true" (ngModelChange)=onTinChange($event) bindLabel="tin_group_name"
+                                placeholder="Select a Tin" bindValue="tin_id" formControlName="tin_id">
+                              </ng-select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="state">Location</label>
+                              <ng-select [items]="locationDropdowndata" [virtualScroll]="true" bindLabel="label" placeholder="Select a Location"
+                                bindValue="location_id" formControlName="location_id">
+                              </ng-select>
+                            </div>
+                            <div class="form-group col-md-6 mb-0">
+                              <label for="custLogo">Multiple form upload</label>
+                              <label class="mandatory" style="padding-left: .5rem; font-size: .75rem">(Please select maximum of 10 forms)</label>
+                              <div class="custom-file">
+                                <input type="file" formControlName="upload_form" #uploadfileinput class="custom-file-input" id="custLogo" (change)="fileChange($event)"
+                                  placeholder="Browse" accept=".pdf" multiple>
+                                <label class="custom-file-label" for="custLogo">Choose file</label>
+                              </div>
+                              <div class="mb-0">
+                                <p class="mb-0">{{selectedFiles}}</p>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <!-- <div class="form-group col-md-6">
+                                    <label for="state">Select Form</label>
+                                    <ng-select [items]="formDropdownData" bindLabel="form_name" placeholder="Select state" bindValue="form_id" formControlName="form_id">
+                                    </ng-select>
+                                  </div> -->
+
+                          </div>
+                        </form>
+                      </div>
+                      <div class="card-footer">
+                        <div class="float-right">
+                          <button type="button" class="btn btn-provider btn-sm mr-2" click-stop-propagation [disabled]="createProvider.invalid" (click)="addProvider()">Create</button>
+                          <button type="button" class="btn btn-provider btn-sm" (click)="clear()">Clear</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="update">
+              <ng-template ngbTabTitle>
+                <h4>CAQH Update</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="card">
+                  <div class="card-body">
+                    <form [formGroup]="updateCAQH">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="state">Customer</label>
+                          <ng-select [items]="customerDropdownData" [virtualScroll]="true" (ngModelChange)=onCustomerUpdateChange($event) bindLabel="customer"
+                            placeholder="Select a customer" bindValue="customer_id" formControlName="customer_ids">
+                          </ng-select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="state">Provider</label>
+                          <ng-select [items]="providerDropdownData" [virtualScroll]="true" bindLabel="name" placeholder="Select a Provider" bindValue="provider_id"
+                            formControlName="provider_id">
+                          </ng-select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="custLogo">Form upload</label>
+
+                          <div class="custom-file">
+                            <input type="file" formControlName="update_upload_form" #uploadupdatefileinput class="custom-file-input" id="custLogo" (change)="updateFileChange($event)"
+                              placeholder="Browse" accept=".pdf">
+                            <label class="custom-file-label" for="custLogo">Choose file</label>
+                          </div>
+                          
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <div class="float-right">
+                      <button type="button" class="btn btn-provider btn-sm mr-2" click-stop-propagation [disabled]="updateCAQH.invalid" (click)="updateCAQHForm()">Update</button>
+                      <button type="button" class="btn btn-provider btn-sm" (click)="clearUpdateCAQH()">Clear</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            
+          </ngb-tabset>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+  <!-- <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">CAQH List</h1>
+
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddProvider()">Add Provider</button>
+
+    </div>
+  </div> -->
+  <div id="customTab" class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-12">
+                <h6 class="pb-2">List of CAQH Insert/Update</h6>
+            </div>
+             
+          </div>
+          
+          <div class="row">
+            <div class="col-md-8">
+              <div class="d-inline-block pr-1">
+
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <form class="searchBox" [formGroup]="searchCaqh">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for CAQH name">
+                  <div class="input-group-append">
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchCaqh.invalid" (click)="search()" type="button">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-search" (click)="clearCaqhList()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="content-view pt-0">
+
+          <ngx-datatable #myCaqhTable class="material striped expandable" [rows]="caqhData" [columnMode]="'force'" [headerHeight]="37"
+            [footerHeight]="37" [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)'>
+
+            <ngx-datatable-column name="File Name" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.filename}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Provider ID" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.provider == null ? '' :  row.provider}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+            <ngx-datatable-column name="Created On" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.date}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Updated On" [sortable]="false">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{row.updated_on}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+
+
+
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

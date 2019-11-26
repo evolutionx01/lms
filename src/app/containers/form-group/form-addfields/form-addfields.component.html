@@ -1,0 +1,164 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header">
+  <h4 class="modal-title">{{popUpTitle}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+
+  <form [formGroup]="addField">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="state">Datatype</label>
+        <span class="mandatory">*</span>
+        <ng-select [items]="datatype" bindLabel="field" placeholder="Select datatype" bindValue="field_id" formControlName="field_id"
+          (change)="onDatatypeChange($event)">
+        </ng-select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="disLabel">Display Label
+          <span class="mandatory">*</span>
+        </label>
+        <!-- [ngStyle]="{'border-color':addCustomer.controls['customer'].hasError('required') && addCustomer.controls['customer'].touched ? 'red' : '#fd9d0e' }" -->
+        <input type="text" class="form-control" formControlName="display_label" id="disLabel" placeholder="Enter display name">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="fieldName">Field Name</label>
+        <span class="mandatory">*</span>
+        <input type="text" class="form-control" formControlName="field_name" id="fieldName" placeholder="Enter field name">
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="cText">Comment Text</label>
+        <input type="text" class="form-control" formControlName="comment_text" id="cText" placeholder="Enter comment">
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="hText">Help Text</label>
+        <input type="text" class="form-control" formControlName="help_text" id="hText" placeholder="Enter help text">
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-12" style="width:100%" formArrayName="dropdown" *ngFor="let item of formDropdownData.controls; let i = index;">
+        <div class="form-row" [formGroupName]="i">
+            <div class="form-group col-md-6">
+                <label for="dropdown">Drop Down</label>
+                <span class="mandatory">*</span>
+                <!-- <input  formControlName="drop_down_id"> -->
+                <ng-select [items]="dropdownListData" bindLabel="drop_down_name" placeholder="Select dropdown" bindValue="drop_down_id" formControlName="drop_down_id"
+                  >
+                </ng-select>
+              </div>
+          <div class="form-group col-md-6">
+            <label for="defaultValue">Default Value</label>
+            <input type="text" class="form-control" formControlName="default_value" id="defaultValue" placeholder="enter default value">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="col-md-12" style="width:100%" formArrayName="date" *ngFor="let item of formDateData.controls; let i = index;">
+        <div class="form-row" [formGroupName]="i">
+          <div class="form-group col-md-6">
+            <label for="defaultDate">Default Date</label>
+            <span class="mandatory">*</span>
+            <div class="input-group">
+              <!--  [ngStyle]="{'border-color':addCustomer.controls['eff_from'].hasError('required') &&  addCustomer.controls['eff_from'].touched ? 'red' : '#ced4da' }" -->
+              <input class="form-control" type="date" name="dp" ngbDatepicker #d="ngbDatepicker" formControlName="default_date" id="defaultDate"
+                placement="top-right" placeholder="yyyy-mm-dd" />
+
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary calendar" (click)="d.toggle()">
+                  <i class="fas fa-calendar-alt"></i>
+                </button>
+              </div>
+            </div>
+            <!-- <input class="form-control" formControlName="default_date" placeholder="Date"> -->
+          </div>
+          <div class="form-group col-md-3">
+            <label>Is Expiration</label>
+            <div class="pt-2">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" formControlName="is_expiration" id="defaultDate">
+                <label class="form-check-label" for="defaultDate">is Expiration</label>
+              </div>
+            </div>
+            <!-- <input class="form-control" formControlName="is_expiration" placeholder="Date"> -->
+          </div>
+          <div class="form-group col-md-3">
+            <label>Date Formate</label>
+            <div class="pt-2">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="checkbox" formControlName="is_date_change" id="is_date_change">
+                <label class="form-check-label" for="is_date_change">MM/YYYY</label>
+              </div>
+            </div>
+            <!-- <input class="form-control" formControlName="is_date_change" placeholder="Date"> -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-row">
+      <div class="col-md-12" style="width:100%" formArrayName="integer" *ngFor="let item of formIntegerData.controls; let i = index;">
+        <div class="form-row" [formGroupName]="i">
+          <div class="form-group col-md-6">
+            <label for="precision">precision</label>
+            <input type="number" class="form-control" formControlName="precision" id="precision" placeholder="enter precision">
+          </div>
+          <div class="form-group col-md-6">
+            <label for="scale">scale</label>
+            <input type="number" class="form-control" formControlName="scale" id="scale" placeholder="enter scale">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="col-md-12" style="width:100%" formArrayName="text" *ngFor="let item of formTextData.controls; let i = index;">
+        <div class="form-row" [formGroupName]="i">
+          <div class="form-group col-md-6">
+            <label for="max_length">Max Length</label>
+            <input type="number" class="form-control" formControlName="max_length" id="max_length" placeholder="Enter Max length">
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label>Mandatory field</label>
+        <div class="pt-2">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" formControlName="allow_null" (input)="onIsmandChange($event.target.checked)"
+              id="inlineRadio1">
+            <label class="form-check-label" for="inlineRadio1">is Mandatory</label>
+          </div>
+        </div>
+      </div>
+
+      <div *ngIf="showDefaultMessage" class="form-group col-md-6">
+        <label for="defaultMessage">Mandatory Default Message</label>
+        <span class="mandatory">*</span>
+        <input type="text" class="form-control" formControlName="default_message" id="defaultMessage" placeholder="Enter default message">
+      </div>
+    </div>
+
+
+
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-custom-status btn-sm" click-stop-propagation [disabled]="addField.invalid" (click)="save(addField.value.field)">{{buttonTitle}}</button>
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="activeModal.dismiss('Cross click')">Cancel</button>
+  <button type="button" *ngIf="!showButton" class="btn btn-custom-status btn-sm" (click)="clear()">Clear</button>
+
+</div>

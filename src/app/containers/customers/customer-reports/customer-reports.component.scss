@@ -1,0 +1,183 @@
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+#report{
+    .btn-back{
+        background:$bg-master-button;
+        border: none;
+    }
+    .header{
+        margin-bottom: $margin-bottom;
+        
+        .img-custom{
+            width: 90px;
+        }
+
+        .page-heading{
+            padding: .50rem .75rem;
+            font-size: 1rem;
+            color:$font-color;
+            display: inline-block;
+            margin-bottom: 0;
+            line-height: 1rem;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+        .cutomerEmail{
+            // font-weight: bold;
+            font-size: 0.875rem;
+            color: $bg-action-button
+        }
+        .btn-header{
+            @include pageHeader-button($bg-master-button);
+        }
+    }
+    #customTab{
+        .content-card{
+            background: $white;
+            border: $input-border;
+            margin-bottom: 1.5rem;
+            .content-header{
+                padding:1rem;
+                h6{
+                    margin-bottom: 0;
+                    line-height: 1rem;
+                    vertical-align: middle;
+                }         
+               
+            }
+            .content-view{
+                padding: 1rem;
+                .custom-size{
+                    font-size: 2rem;
+                }
+                .admin-heading {
+                    padding: 0rem 0rem .2rem 0rem;
+                    font-size: .8125rem;
+                    color:$font-color;
+                
+                    margin-bottom: 0;
+                    line-height: 1rem;
+                    vertical-align: middle;
+                    
+                }
+                .admin-date {
+                    
+                    font-size: .75rem;
+                    color:$font-color;
+                
+                    margin-bottom: 0;
+                    line-height: 1rem;
+                    vertical-align: middle;
+                   
+                }
+                .admin-phone{
+                    
+                    font-size: 0.75rem;
+                    color: $bg-action-button;
+                    margin-bottom: 0rem;
+                }
+                .page-subheading{
+                    font-weight: bold;
+                    display: inline-block;
+                }
+                h6{
+                    margin-bottom: 0;
+                    line-height: 2rem;
+                    vertical-align: middle;
+                }
+                    .divider{
+                        color: $border-color;
+                    }
+            
+                .rowHeader{
+                  
+                   padding-bottom: .75rem; 
+                   
+                }
+                .detailsHeader{
+                    font-size: .75rem;
+                }
+                .form-row{
+                    font-size:.75rem;
+                }
+                .btn-search{
+                    @include button-big($bg-action-button);
+                } 
+                
+                
+                .form-group{
+
+                    .mandatory{
+                        color: red;
+                    }
+                    label{
+                        margin-bottom: 0rem;
+                    }
+                    .formheader{
+                        font-weight: bold;
+                        font-size: 1rem;
+
+                        
+                    }
+                    .custom-file{
+                        
+                        &:focus{
+                            border-color: none;
+                                outline: 0;
+                                box-shadow: none;
+                        }
+                    }
+                    .form-control{
+                        font-size: 0.75rem;
+                        &:focus{
+                                border-color: none;
+                                outline: 0;
+                                box-shadow: none;
+                            
+                        }
+                    }
+                    .input-group{
+                        .input-group-append{
+                            .calendar{
+                                font-size: .75rem;
+                                border-color:#ced4da;
+                            }
+                        }
+                    }
+                }
+                .custom-height{
+                    min-height: 50vh;
+                }
+                .tabHeader{
+                    padding-top: .75rem;
+                    .showLabel{
+                        font-size: .75rem;
+                    }
+                }
+                .customForm{
+                    padding-top: .75rem;
+                   
+                    
+                }   
+                .btn-state{
+                    @include button-big($bg-master-button);
+                    font-size: 1rem;
+                }                 
+                
+            }
+            .content-footer{
+                display: flex;
+                align-items: center;
+                justify-content: flex-end;
+                padding: 0.5rem;
+                border-top: 1px solid #e9ecef;
+                .btn-customer{
+                    @include button-big($bg-master-button);
+                }
+            }
+        }
+    }
+    
+}
+

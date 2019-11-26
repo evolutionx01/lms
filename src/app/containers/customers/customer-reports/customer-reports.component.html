@@ -1,0 +1,193 @@
+<div class="container-fluid" id="report">
+  <div class="row header">
+    <div class="col-md-8">
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">Customer Reports</h1>
+    </div>
+    <div class="col-md-4">
+      <div class="float-right">
+        <button class="btn btn-header btn-sm" routerLink='/customer'>
+          <i class="fas fa-reply"></i>
+        </button>
+      </div>
+    </div>
+
+  </div>
+
+  <div id="customTab" class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-view p-0">
+          <ngb-tabset (tabChange)="beforeChange($event)">
+            <ngb-tab id="ipa">
+              <ng-template ngbTabTitle>
+                <h4>IPA</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'ipa')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <!-- <form [formGroup]="searchIpa">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for first name or last name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchIpa.invalid" (click)="onProvSearchChange()" type="button">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('prov')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form> -->
+                    </div>
+                  </div>
+                  <div class="row customForm">
+
+                    <div class="col-md-12">
+                      <ngx-datatable #ipaTable class="material striped" [rows]="ipaReportData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                        [limit]="ipaLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="ipaCount" [offset]="ipaPageNumber"
+                        (page)="onIpaPage($event)">
+
+                        <ngx-datatable-column name="Customer Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.customer}} </span>
+                            <div #firstChild class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="onIpaStatusChange($event ,row, firstChild)">{{row.ipastatus ? 'Inactivate' : 'Activate'}}</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Status">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+
+                            <span [ngClass]="row.ipastatus  ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                              {{row.ipastatus ? 'Active' : 'Inactive'}} </span>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="canned">
+              <ng-template ngbTabTitle>
+                <h4>Canned</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <form [formGroup]="selectCustomer">
+                        <div class="form-group col-md-4 p-0 mt-4">
+                          <label for="state">Customer</label>
+                          <!-- <span class="mandatory">*</span> -->
+                          <ng-select [clearable]="false" [items]="customerList" bindLabel="customer" placeholder="Select customer" bindValue="user_id" (change)=onCustomerChange($event) formControlName="customer_id">
+                          </ng-select>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                  <div class="row tabHeader">
+                    <div class="col-md-8">
+                      <div class="d-inline-block pr-1">
+                        <span class="showLabel">Show</span>
+                      </div>
+                      <div class="d-inline-block form-group m-0">
+                        <select class="form-control" (change)="onLimitChange($event.target.value, 'canned')">
+                          <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                            {{ option.value }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+                    <div class="col-md-4">
+                      <!-- <form [formGroup]="searchCanned">
+                        <div class="input-group input-group-sm">
+                          <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for first name or last name">
+                          <div class="input-group-append">
+                            <button class="btn btn-search" click-stop-propagation [disabled]="searchCanned.invalid" (click)="onProvSearchChange()" type="button">
+                              <i class="fas fa-search"></i>
+                            </button>
+                            <button class="btn btn-search" (click)="clear('prov')" type="button">
+                              <i class="fas fa-redo-alt"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </form> -->
+                      <div class="float-right">
+                        <button class="btn btn-sm btn-search mr-2" [disabled]="showStatusBtn" (click)="onCannedStatusChange(1)">Activate</button>
+                      <button class="btn btn-sm btn-search" [disabled]="showStatusBtn" (click)="onCannedStatusChange(0)">Inactivate</button>
+                      </div>
+                      
+                    </div>
+                  </div>
+                  <div class="row customForm">
+                    <div class="col-md-12">
+                      <!-- <ngx-datatable class="material striped" [rows]="formFieldMapData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="0"
+                      [rowHeight]="37" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" [displayCheck]="displayCheck"
+                      (activate)="onActivate($event)" (select)='onSelect($event)' [externalSorting]="true" (sort)="onSort($event)"
+                      [scrollbarV]="true"> -->
+                      
+                      <!-- <ngx-datatable #cannedTable class="material striped" [rows]="cannedReportData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="37"
+                        [limit]="cannedLimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="cannedCount" [offset]="cannedPageNumber"
+                        (page)="onCannedPage($event)">   -->
+
+                        <ngx-datatable #cannedTable class="material striped" [rows]="cannedReportData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="0"
+                        [rowHeight]="37" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" [displayCheck]="displayCheck"
+                        (activate)="onActivate($event)" (select)='onSelect($event)' [externalSorting]="true" (sort)="onSort($event)"
+                        [scrollbarV]="true">  
+                        <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+                        [checkboxable]="true">
+                      </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Report Name">
+                          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                            <span> {{row.canned_report}} </span>
+                            <div #firstChild class="d-flex flex-row">
+                              <div class="actionTableItem" (click)="onCannedStatusChange($event ,row, firstChild)">{{row.cannedstatus ? 'Inactivate' : 'Activate'}}</div>
+                            </div>
+                          </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Status">
+                            <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+  
+                              <span [ngClass]="row.cannedstatus  ? 'badge-success' : 'badge-danger'" class="badge badge-pill fl-r lh-0 p-10 width-100">
+                                {{row.cannedstatus ? 'Active' : 'Inactive'}} </span>
+                            </ng-template>
+                          </ngx-datatable-column>
+
+                      </ngx-datatable>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+
+          </ngb-tabset>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+</div>

@@ -1,0 +1,65 @@
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+#dropdown{
+    .margin-bottom{
+        margin-bottom: $margin-bottom;
+    }
+    .custom-font{
+        font-size: 1rem;
+    }
+        .page-heading{
+            padding: .50rem .75rem;
+            font-size: 1rem;
+            color:$font-color;
+            display: inline-block;
+            margin-bottom: 0;
+            line-height: 1rem;
+            vertical-align: middle;
+            font-weight: bold;
+        }
+        .page-subheading{
+            font-weight: bold;
+            display: inline-block;
+        }
+        .showLabel{
+            font-size: .75rem;
+        }
+        .btn-header{
+            @include pageHeader-button($bg-master-button);
+        }
+        .btn-customer{
+            @include button-big($bg-master-button);
+            // font-weight: bold;
+        }
+    
+    .content{
+        .content-card{
+            background: $white;
+            border: $input-border;
+            padding: 0.75rem;
+            .content-header{
+                padding-bottom: 0.75rem;
+                h6{
+                    margin-bottom: 0;
+                    line-height: 2rem;
+                    vertical-align: middle;
+                } 
+                .input-group{
+                    .btn-search{
+                        @include button-big($bg-action-button);
+                    }    
+                }    
+                
+               
+            }
+            .content-view{
+                .divider{
+                    color: $border-color;
+                }
+            }
+            
+        }
+    }
+    
+}

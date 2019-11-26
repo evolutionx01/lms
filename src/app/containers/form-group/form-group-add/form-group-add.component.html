@@ -1,0 +1,44 @@
+<div class="modal-header">
+    <h4 class="modal-title text-uppercase">{{popupTitle}}</h4>
+    <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  
+  
+  </div>
+  <div class="modal-body">
+      <form [formGroup]="addGroup">
+
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="custName">Group Name
+                <span class="mandatory">*</span>
+              </label>
+              <!-- [ngStyle]="{'border-color':addCustomer.controls['customer'].hasError('required') && addCustomer.controls['customer'].touched ? 'red' : '#fd9d0e' }" -->
+              <input [ngStyle]="{'border-color':addGroup.controls['group_name'].hasError('required') && addGroup.controls['group_name'].touched ? 'red' : '#ced4da' }"
+                type="text" class="form-control" formControlName="group_name" id="custName" placeholder="Enter group name">
+              <small class="text-danger" *ngIf="addGroup.controls['group_name'].hasError('required') && addGroup.controls['group_name'].touched">
+                Group name is mandatory. </small>
+            </div>
+            <div class="form-group col-md-6">
+                <label for="type">Type</label><span class="mandatory">*</span>
+                <ng-select [items]="groupTypeData" bindLabel="type" placeholder="Select type" bindValue="type_id" formControlName="type_id">
+                </ng-select>
+                <!-- <select class="form-control" id="state" formControlName="state">
+                  <option [value]="states.state_id" *ngFor="let states of stateDropdownData">{{states.state}}</option>
+                </select> -->
+                
+              </div>
+          
+          </div>
+      
+      
+       
+        </form>
+  </div>
+  <div class="modal-footer">
+      <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="addGroup.invalid" (click)="addGroupDetails()">{{buttonTitle}}</button>
+      <button *ngIf="!showButton" type="button" class="btn btn-customer btn-sm mx-2" (click)="reset()">Clear</button>
+      <button type="button" class="btn btn-customer btn-sm mx-2" (click)="activeModal.close('Close click')">Cancel</button>
+  
+  </div>

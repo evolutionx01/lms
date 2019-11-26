@@ -1,0 +1,282 @@
+<div #pageTop class="container-fluid" id="dataimport">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">Data Import</h1>
+
+    </div>
+    <!-- <div class="col-md-6">
+        <button type="button" class="btn btn-customer btn-sm float-right" (click)="openAddProvider()">Add Provider</button>
+  
+      </div> -->
+  </div>
+
+  <div id="customTabSet" class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-view p-0">
+          <ngb-tabset (tabChange)="beforeChange($event)" [orientation]="'vertical'">
+            <ngb-tab id="download">
+              <ng-template ngbTabTitle>
+                <h4>Download Template</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="row">
+                  <div class="col-md-12">
+                    <div class="card">
+                      <div class="card-body">
+                        <form [formGroup]="downloadTemplate">
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="state">Type</label>
+                              <span class="mandatory">*</span>
+                              <ng-select [clearable]="false" [items]="typeData" [virtualScroll]="true" bindLabel="item_name" (ngModelChange)=onTypeChage($event)
+                                placeholder="Select a type" bindValue="id" formControlName="item_id">
+                              </ng-select>
+                            </div>
+                            <div class="col-md-6" style="width:100%" formArrayName="customer_details" *ngFor="let item of getformCustomer.controls; let i = index;">
+                              <div class="form-row" [formGroupName]="i">
+                                <div class="form-group col-md-12">
+                                  <label for="dropdown">Customer</label>
+                                  <span class="mandatory">*</span>
+                                  <!-- <input  formControlName="drop_down_id"> -->
+                                  <ng-select [items]="customerDropdownData" [virtualScroll]="true" bindLabel="customer" placeholder="Select a Customer" bindValue="customer_id"
+                                    formControlName="customer_id">
+                                  </ng-select>
+                                </div>
+
+                              </div>
+                            </div>
+                          </div>
+                          <div class="form-row">
+
+                          </div>
+                        </form>
+                      </div>
+                      <div class="card-footer">
+                        <div class="float-right">
+                          <button type="button" class="btn btn-provider btn-sm mr-2" click-stop-propagation [disabled]="downloadTemplate.invalid" (click)="downloadPDF()">Download</button>
+                          <button type="button" class="btn btn-provider btn-sm" (click)="cleardownload()">Clear</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="upload">
+              <ng-template ngbTabTitle>
+                <h4>Upload Template</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="card">
+                  <div class="card-body">
+                    <form [formGroup]="uploadTemplate">
+                      <div class="form-row">
+                        <div class="col-md-12">
+                          <div class="form-row">
+                            <div class="form-group col-md-6">
+                              <label for="state">Type</label>
+                              <span class="mandatory">*</span>
+                              <ng-select [items]="typeData" (ngModelChange)=onUploadTypeChage($event) [virtualScroll]="true" bindLabel="item_name" placeholder="Select a type"
+                                bindValue="id" formControlName="item_id">
+                              </ng-select>
+                            </div>
+                            <div class="form-group col-md-6">
+                              <label for="state">Customer</label>
+                              <span class="mandatory">*</span>
+                              <ng-select [items]="customerList" [virtualScroll]="true" bindLabel="customer" placeholder="Select a customer" bindValue="user_id"
+                                formControlName="Customer_id">
+                              </ng-select>
+                            </div>
+                          </div>
+                          <div class="form-row">
+                            <div *ngIf="showTINNote" class="form-group col-md-12">
+
+                              <label class="mandatory">Note:</label>
+                              <ul class="list-group">
+                                <li class="ml-4">TIN and TIN group are mandatory fields.</li>
+                                <li class="ml-4">The user can even create new TINs and update the existing TINs using this type.</li>
+                                <li class="ml-4">While Creating new TIN, ID field should be blank.</li>
+                                <li class="ml-4">While updating existing TIN, ID field is mandatory.</li>
+                              </ul>
+                            </div>
+                            <div *ngIf="showLocationNote" class="form-group col-md-12">
+
+                                <label class="mandatory">Note:</label>
+                                <ul class="list-group">
+                                  <li class="ml-4">Tin,Tin name and Practice name are mandatory fields</li>
+                                  <li class="ml-4">The user can even create new Locations and update the existing Locations using this type.</li>
+                                  <li class="ml-4">While Creating new Location, ID field should be blank.</li>
+                                  <li class="ml-4">While updating existing Location, ID field is mandatory.</li>
+                                </ul>
+                              </div>
+                              <div *ngIf="showProviderNote" class="form-group col-md-12">
+
+                                  <label class="mandatory">Note:</label>
+                                  <ul class="list-group">
+                                    <li class="ml-4">Physician ID, First Name and Last Name are mandatory fields.</li>
+                                    <li class="ml-4">The user can even create new Providers and update the existing Providers using this type.</li>
+                                    <li class="ml-4">While Creating new Provider, Provider ID field should be blank.</li>
+                                    <li class="ml-4">While updating existing Provider, Provider ID field is mandatory.</li>
+                                  </ul>
+                                </div>
+                            <div *ngIf="showProviderPayerNote" class="form-group col-md-12">
+                              <label class="mandatory">Note:</label>
+                              <ul class="list-group">
+                                <li class="ml-4">Payer, Payer Product type, contract type, TIN Umberlla and Location are mandatory fields.</li>
+                                <li class="ml-4">The user can only update the existing provider payers but can't create new ones.</li>
+                                <li class="ml-4">"Something went wrong" message is displayed when there is problem with data type in the excel
+                                  sheet that you are trying to upload.</li>
+                                <li class="ml-4">User has to select the exact TIN Umbrella to which the provider location/TIN is mapped in
+                                  CMD.
+                                </li>
+                                <li class="ml-4">TIN and TIN Group name combination should not have all numeric.</li>
+                                <li class="ml-4">Below is the example:</li>
+                              </ul>
+                              <div class="col-md-6">
+                                  <table class="table">
+                                      <thead>
+                                        <tr>
+                                          <th scope="col">TIN</th>
+                                          <th scope="col">TIN Group</th>
+                                          <th scope="col">Combination</th>
+                                          <th scope="col">Possible Scenario</th>
+                                        </tr>
+                                      </thead>
+                                      <tbody>
+                                        <tr>
+                                          <td>A</td>
+                                          <td>Gr</td>
+                                          <td>A:Gr</td>
+                                          <td>Allowed</td>
+                                        </tr>
+                                        <tr>
+                                          <td>12</td>
+                                          <td>Gr</td>
+                                          <td>12:Gr</td>
+                                          <td>Allowed</td>
+                                        </tr>
+                                        <tr>
+                                          <td>A</td>
+                                          <td>15</td>
+                                          <td>A:15</td>
+                                          <td>Allowed</td>
+                                        </tr>
+                                        <tr>
+                                          <td>12</td>
+                                          <td>15</td>
+                                          <td>12:15</td>
+                                          <td>Not Allowed</td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                              </div>
+                            </div>
+                            <div *ngIf="showLocationPayerNote" class="form-group col-md-12">
+
+                                <label class="mandatory">Note:</label>
+                                <ul class="list-group">
+                                  <li class="ml-4">Location, Payer, Payer Type and contract type are mandatory fields.</li>
+                                  <li class="ml-4">The user can even create new Location Payers and update the existing Location Payers using this type.</li>
+                                  <li class="ml-4">While Creating new Location Payer, ID field should be blank.</li>
+                                  <li class="ml-4">While updating existing Location Payer, ID field is mandatory.</li>
+                                </ul>
+                              </div>
+                          </div>
+                        </div>
+
+
+
+                        <div class="form-group col-md-12">
+                          <label for="custLogo">Upload Template</label>
+                          <span class="mandatory">*</span>
+
+                          <div class="custom-file">
+                            <input type="file" formControlName="upload_template" #uploadfileinput class="custom-file-input" id="custLogo" (change)="uploadFileChange($event)"
+                              placeholder="Browse" accept=".xlsx">
+                            <label class="custom-file-label" for="custLogo">Choose file</label>
+                          </div>
+
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <div class="float-right">
+                      <button type="button" class="btn btn-provider btn-sm mr-2" click-stop-propagation [disabled]="uploadTemplate.invalid" (click)="uploadXlsxTemplate()">Upload</button>
+                      <button type="button" class="btn btn-provider btn-sm" (click)="clearUpload()">Clear</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+            <ngb-tab id="standard">
+              <ng-template ngbTabTitle>
+                <h4>Standard Template</h4>
+              </ng-template>
+              <ng-template ngbTabContent>
+                <div class="card">
+                  <div class="card-body">
+                    <form [formGroup]="standardTemplate">
+                      <div class="form-row">
+                        <div class="form-group col-md-6">
+                          <label for="state">Customer</label>
+                          <span class="mandatory">*</span>
+                          <ng-select [items]="customerDropdownData" [virtualScroll]="true" (ngModelChange)=onCustomerChange($event) bindLabel="customer"
+                            placeholder="Select a Customer" bindValue="customer_id" formControlName="Customer_id">
+                          </ng-select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="state">TIN</label>
+                          <span class="mandatory">*</span>
+                          <ng-select [items]="tinDropdownData" [virtualScroll]="true" bindLabel="tin_group_name" (ngModelChange)=onTinChange($event)
+                            placeholder="Select a Tin" bindValue="tin_id" formControlName="tin_id">
+                          </ng-select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="state">Location</label>
+                          <span class="mandatory">*</span>
+                          <ng-select [items]="locationDropdowndata" [virtualScroll]="true" bindLabel="label" placeholder="Select a location"
+                            bindValue="location_id" formControlName="location_id">
+                          </ng-select>
+                        </div>
+                        <div class="form-group col-md-6">
+                          <label for="custLogo">Choose File</label>
+                          <span class="mandatory">*</span>
+
+                          <div class="custom-file">
+                            <input type="file" formControlName="upload_file" #standardfileinput class="custom-file-input" id="custLogo" (change)="standardFileChange($event)"
+                              placeholder="Browse" accept=".pdf">
+                            <label class="custom-file-label" for="custLogo">Choose file</label>
+                          </div>
+
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                  <div class="card-footer">
+                    <div class="float-right">
+                      <button type="button" class="btn btn-provider btn-sm mr-2" click-stop-propagation [disabled]="standardTemplate.invalid" (click)="uploadStandardForm()">Upload</button>
+                      <button type="button" class="btn btn-provider btn-sm" (click)="clearStandard()">Clear</button>
+                    </div>
+                  </div>
+                </div>
+              </ng-template>
+            </ngb-tab>
+          </ngb-tabset>
+        </div>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+</div>

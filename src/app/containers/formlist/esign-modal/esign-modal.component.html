@@ -1,0 +1,110 @@
+<div class="modal-header">
+  <h4 class="modal-title text-uppercase">Add E-sign</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+
+<div class="modal-body">
+    <form [formGroup]="esignature">
+    <div class="form-row">
+      <div class="form-group col-md-2">
+        <label for="state">X Coordinate</label>
+        <input type="text" class="form-control" formControlName="x_axis" >
+        <small class="text-danger" *ngIf="esignature.controls['x_axis'].hasError('required') && esignature.controls['x_axis'].touched">
+          X Coordinate is mandatory.</small> 
+          <small class="text-danger" *ngIf="esignature.controls['x_axis'].hasError('pattern') && esignature.controls['x_axis'].touched">
+            Please enter a integer. </small> 
+      </div>
+      <div class="form-group col-md-2">
+        <label for="state">Y Coordinate</label>
+        <input type="text" class="form-control" formControlName="y_axis" >
+        <small class="text-danger" *ngIf="esignature.controls['y_axis'].hasError('required') && esignature.controls['y_axis'].touched">
+          Y Coordinate is mandatory.</small> 
+          <small class="text-danger" *ngIf="esignature.controls['y_axis'].hasError('pattern') && esignature.controls['y_axis'].touched">
+            Please enter a integer. </small> 
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="state">Height</label>
+        <input type="text" class="form-control" formControlName="height" >
+        <small class="text-danger" *ngIf="esignature.controls['height'].hasError('required') && esignature.controls['height'].touched">
+          Height is mandatory.</small> 
+          <small class="text-danger" *ngIf="esignature.controls['height'].hasError('pattern') && esignature.controls['height'].touched">
+            Please enter a integer. </small> 
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="state">Width</label>
+        <input type="text" class="form-control" formControlName="width" >
+        <small class="text-danger" *ngIf="esignature.controls['width'].hasError('required') && esignature.controls['width'].touched">
+          Width is mandatory.</small>
+          <small class="text-danger" *ngIf="esignature.controls['width'].hasError('pattern') && esignature.controls['width'].touched">
+            Please enter a integer. </small>  
+      </div>
+
+      <div class="form-group col-md-2">
+        <label for="state">Page No</label>
+        <input type="text" class="form-control" formControlName="page_number">
+        <small class="text-danger" *ngIf="esignature.controls['page_number'].hasError('required') && esignature.controls['page_number'].touched">
+          Page No is mandatory.</small> 
+          <small class="text-danger" *ngIf="esignature.controls['page_number'].hasError('pattern') && esignature.controls['page_number'].touched">
+            Please enter a integer. </small>  
+      </div>
+
+<div class="form-group col-md-2">
+    <div class="button_status">
+  <button class="btn btn-custom-status btn-sm"  click-stop-propagation [disabled]="esignature.invalid" (click)="addcoordinates()"
+  type="button"><span class="px-2">Add</span>
+</button>
+</div>
+</div>
+</div>
+</form>
+
+
+  <div class="row">
+    <div class="col-md-12">
+        <ngx-datatable class="material striped" class="material striped" [rows]="esignformdata" [columnMode]="'force'"
+        [headerHeight]="37" [footerHeight]="37" [rowHeight]="'auto'" [loadingIndicator]="'loading'"  
+        [rowHeight]="'auto'">
+      
+        <ngx-datatable-column name="X Coordinate">
+          <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+            <span>{{ row.x_axis}}</span>
+          </ng-template>
+        </ngx-datatable-column>
+
+        <ngx-datatable-column name="Y Coordinate">
+            <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+              <span>{{ row.y_axis}}</span>
+            </ng-template>
+          </ngx-datatable-column>
+
+          <ngx-datatable-column name="Height">
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <span>{{ row.height}}</span>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Width">
+                <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                  <span>{{ row.width}}</span>
+                </ng-template>
+              </ngx-datatable-column>
+              <ngx-datatable-column name="Page No">
+                  <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                    <span>{{ row.page_num}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+                <ngx-datatable-column name="">
+                  <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                    <div class="actionTableItem" (click)="deleteClicked(row)">Delete</div>
+                  </ng-template>
+                </ngx-datatable-column>
+      </ngx-datatable> 
+    </div>
+  </div>
+  </div>
+
+

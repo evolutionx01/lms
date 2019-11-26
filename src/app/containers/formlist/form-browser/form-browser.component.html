@@ -1,0 +1,93 @@
+<div class="container-fluid" id="browser">
+  <div class="row header margin-bottom">
+    <div class="col-md-6">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-users"></i>
+      </button>
+      <h1 class="page-heading">Forms In Browser</h1>
+
+    </div>
+    <div class="col-md-6">
+      <button type="button" class="btn btn-customer btn-sm float-right" (click)="createForm()">Create Form</button>
+    </div>
+
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-8">
+              <div class="d-inline-block pr-1">
+                <!-- <h6 class="page-subheading">List of Customers</h6> -->
+                <span class="showLabel">Show</span>
+              </div>
+              <div class="d-inline-block form-group m-0">
+                <select class="form-control" (change)="onLimitChange($event.target.value)">
+                  <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                    {{ option.value }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-4">
+
+              <form [formGroup]="searchCustomer">
+                <div class="input-group input-group-sm">
+                  <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for form name">
+                  <div class="input-group-append">
+                    <button class="btn btn-search" click-stop-propagation [disabled]="searchCustomer.invalid" (click)="search()">
+                      <i class="fas fa-search"></i>
+                    </button>
+                    <button class="btn btn-search" (click)="clear()" type="button">
+                      <i class="fas fa-redo-alt"></i>
+                    </button>
+                   
+                  </div>
+                </div>
+              </form>
+            </div>
+
+          </div>
+
+        </div>
+        <div class="content-view">
+
+          <ngx-datatable #formBrowserTable class="material striped expandable" [rows]="formBrowserListData" [columnMode]="'force'" [headerHeight]="37"
+            [footerHeight]="37" [limit]="pagelimit" [rowHeight]="'auto'" [externalPaging]="true" [count]="totalElements" [offset]="pageNumber"
+            (page)='setPage($event)' [externalSorting]="true" (sort)="onSort($event)">
+
+            <ngx-datatable-column name="Form Name" [width]='250'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                    <a class="pr-2" href="{{row.form_name}}" target="_blank"><i class="fas fa-link"></i></a>
+                  <span>{{row.form_name}}</span>
+                  
+                </div>
+                <div #firstChild class="d-flex flex-row">
+                  <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'edit')">Edit</div>
+                  <div class="px-2 divider">|</div>
+                  <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'map')">Map</div>    
+                  <div class="px-2 divider">|</div>
+                  <div class="actionTableItem" (click)="actionClicked($event, row, firstChild, 'delete')">Delete</div>             
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+            <ngx-datatable-column name="Created On" [width]='250'>
+              <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                <div>
+                  <span>{{row.created_on}}</span>
+                </div>
+              </ng-template>
+            </ngx-datatable-column>
+
+          </ngx-datatable>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,100 @@
+<div class="container-fluid" id="caqhDisplay">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+      <button class="btn btn-header btn-sm">
+        <i class="fab fa-stack-exchange" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">CAQH</h1>
+    </div>
+    <div class="col-md-6">
+      <div class="float-right">
+        <button class="btn btn-header btn-sm" (click)="save()">Save </button>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-3">
+      <nav class="sidebar-nav">
+        <ul id="sidebarnav" class="list-group">
+          <li *ngFor="let item of listOfMenu; let i= index" class="sidebar-item list-group-item list-group-item-action"
+            (click)="actionClicked(item.type, item.id)" [ngClass]="{'active': selectedItem == item.id}">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link active" aria-expanded="false">
+
+              <span class="hide-menu">{{item.name}}</span>
+            </a>
+          </li>
+          <!-- <li class="sidebar-item list-group-item list-group-item-action" (click)="actionClicked('professional_ids')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+
+              <span class="hide-menu">Professional IDS</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action" (click)="actionClicked('education')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+
+              <span class="hide-menu">Education</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action"
+            (click)="actionClicked('professional_training')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+
+              <span class="hide-menu">Professional Traning</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action" (click)="actionClicked('specialities')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+              <span class="hide-menu">Specialties</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action"
+            (click)="actionClicked('hospital_affialation')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+              <span class="hide-menu">Hospital Affiliation</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action"
+            (click)="actionClicked('professional_insurance')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+              <span class="hide-menu">Professional Liability Insurance</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action"
+            (click)="actionClicked('employment_information')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+              <span class="hide-menu">Employment Information</span>
+            </a>
+          </li>
+          <li class="sidebar-item list-group-item list-group-item-action"
+            (click)="actionClicked('professional_reference')">
+            <a class="sidebar-link waves-effect waves-dark sidebar-link" aria-expanded="false">
+              <span class="hide-menu">Professional References</span>
+            </a>
+          </li> -->
+
+
+        </ul>
+      </nav>
+    </div>
+    <div class="col-md-9">
+      <div *ngIf="!showSlider">
+        <div class="img-event">
+          <img src="{{imgUrl}}" class="img-fluid">
+        </div>
+      </div>
+      <div *ngIf="showSlider">
+        <owl-carousel-o [options]="customOptions">
+          <ng-template carouselSlide *ngFor="let item of imageContent;let i = index">
+            <div class="img-event">
+              <img src="{{baseUrl}}/{{item}}" class="img-fluid">
+            </div>
+            <p>djahfhajkfhajfhajl</p>
+          </ng-template>
+        </owl-carousel-o>
+      </div>
+
+    </div>
+  </div>
+</div>

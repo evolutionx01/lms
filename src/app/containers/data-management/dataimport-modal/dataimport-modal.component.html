@@ -1,0 +1,34 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header bg-danger"  >
+  <h4 class="modal-title">Error Message!!</h4>
+  <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button> -->
+</div>
+<div class="modal-body">
+  <div *ngFor="let data of error_data; let i = index;" >
+  <p><b>{{data.error}}</b></p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Row</th>
+        <th scope="col">Field Name</th>
+        <th scope="col">Invalid Value</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let error_item of data.fields; let i = index;">
+        <th scope="row">{{i+1}}</th>
+        <td>{{error_item.row}}</td>
+        <td>{{error_item.field_name}}</td>
+        <td>{{error_item.date_value_received}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('yes')">Cancel</button>
+ 
+</div>

@@ -1,0 +1,37 @@
+<div class="modal-header">
+  <h4 class="modal-title text-uppercase">{{popupTitle}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+
+</div>
+<div class="modal-body">
+  <form [formGroup]="addSubGroup">
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="custName">Sub Group Name
+          <span class="mandatory">*</span>
+        </label>
+        <!-- [ngStyle]="{'border-color':addCustomer.controls['customer'].hasError('required') && addCustomer.controls['customer'].touched ? 'red' : '#fd9d0e' }" -->
+        <input [ngStyle]="{'border-color':addSubGroup.controls['sub_group_name'].hasError('required') && addSubGroup.controls['sub_group_name'].touched ? 'red' : '#ced4da' }"
+          type="text" class="form-control" formControlName="sub_group_name" id="custName" placeholder="Enter sub group name">
+        <small class="text-danger" *ngIf="addSubGroup.controls['sub_group_name'].hasError('required') && addSubGroup.controls['sub_group_name'].touched">
+          Sub group name is mandatory. </small>
+      </div>
+      <div class="form-group col-md-6">
+        <div class="form-check form-check-inline">
+            <input type="checkbox" class="form-check-input" formControlName="is_multi_instance">
+          <label class="form-check-label">Need multiple instance of subgroup</label>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="addSubGroup.invalid" (click)="addSubGroupDetails()">{{buttonTitle}}</button>
+  <button *ngIf="!showButton" type="button" class="btn btn-customer btn-sm mx-2" (click)="reset()">Clear</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="activeModal.close('Close click')">Cancel</button>
+
+</div>

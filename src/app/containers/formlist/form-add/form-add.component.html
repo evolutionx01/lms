@@ -1,0 +1,154 @@
+<div class="modal-header">
+  <h4 class="modal-title" *ngIf="showtitle">UPLOAD FORM AND ADD FORM DETAILS </h4>
+  <h4 class="modal-title" *ngIf="!showtitle">EDIT FORM DETAILS</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+</div>
+<div class="modal-body">
+  <form [formGroup]="uploadform">
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="custName">Form Name
+          <span class="mandatory">*</span>
+        </label>
+        <input type="text" class="form-control" formControlName="form_name" id="formname" placeholder="Form Name" required>
+        <small class="text-danger" *ngIf="uploadform.controls['form_name'].hasError('required') && uploadform.controls['form_name'].touched">
+          Form Name is mandatory. </small>
+      </div>
+      <div class="form-group col-md-6">
+        <label for="uploadform">Upload Form
+          <span class="mandatory">*</span>
+        </label>
+        <div class="custom-file">
+          <!-- formControlName="upload_form" -->
+          <input type="file" #uploadfileinput id="uploadform" (change)="fileChange($event)" placeholder="Browse" accept=".pdf">
+          <!-- <label class="custom-file-label" [ngClass]="{'uploadDisabled': !showfile}" for="uploadform">Choose file</label> -->
+          <label class="custom-file-label" for="uploadform">Choose file</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="customer">Select Customer
+          <!-- <span class="mandatory">*</span> -->
+        </label>
+        <ng-select [clearable]="false" [items]="customerName" bindLabel="customer" bindValue="user_id" placeholder="Select Customer"
+          formControlName="customer">
+        </ng-select>
+        <!-- <small class="text-danger" *ngIf="uploadform.controls['customer'].hasError('required') && uploadform.controls['customer'].touched">
+          Customer is mandatory. </small> -->
+
+      </div>
+
+      <div class="form-group col-md-6">
+        <label for="payer">Select Payer
+          <span class="mandatory">*</span>
+        </label>
+        <ng-select [items]="payerdata" bindLabel="item_name" bindValue="item_id" placeholder="Select payer" formControlName="payer">
+        </ng-select>
+        <small class="text-danger" *ngIf="uploadform.controls['payer'].hasError('required') && uploadform.controls['payer'].touched">
+          Payer is mandatory. </small>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="formtype">Select Form Type
+          <span class="mandatory">*</span>
+        </label>
+        <ng-select [items]="formtypedata" bindLabel="form_type" bindValue="form_type_id" placeholder="Select Form Type" formControlName="formtype">
+        </ng-select>
+        <small class="text-danger" *ngIf="uploadform.controls['formtype'].hasError('required') && uploadform.controls['formtype'].touched">
+          Form Type is mandatory. </small>
+      </div>
+      <div class="form-group col-md-6">
+        <label class="form-check-label">
+          Document Specific To
+          <span class="mandatory">*</span>
+        </label>
+
+        <div class="form-row">
+          <!--uploadform.controls.orders.controls-->
+          <label class="checkboxstyle" formArrayName="orders" *ngFor="let order of formCheckboxData.controls; let i = index">
+            <input type="checkbox" [formControlName]="i" (change)="updateChkbxArray($event, orders[i].id)" [checked]="checkStatus(orders[i].id)"> {{orders[i].name}}
+          </label>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="form-group green-border-focus">
+      <label for="formate">Form Description
+        <!-- <span class="mandatory">*</span> -->
+      </label>
+      <textarea class="form-control form-rounded formtextare" formControlName="form_description" rows="5"></textarea>
+      <!-- <small class="text-danger" *ngIf="uploadform.controls['form_description'].hasError('required') && uploadform.controls['form_description'].touched">
+        Form Description is mandatory. </small> -->
+    </div>
+
+
+    <div class="form-row">
+      <div class="form-group col-md-6">
+        <label for="formate">Applicable States
+          <span class="mandatory">*</span>
+        </label>
+        <!-- <select class="form-control" id="states" formControlName="stateControl">
+          <option [value]="states.state_id" *ngFor="let states of statedata">{{states.state}}</option>
+        </select>  -->
+        <ng-select [items]="statedata" [dropdownPosition]="'bottom'" bindLabel="state" bindValue="state_id" [multiple]="true" placeholder="Select State"
+          formControlName="state" [closeOnSelect]="false">
+          <ng-template ng-header-tmp>
+            <button (click)="selectAll()" class="btn btn-sm btn-secondary mr-2">Select all</button>
+            <button (click)="unselectAll()" class="btn btn-sm btn-secondary">Unselect all</button>
+          </ng-template>
+        </ng-select>
+        <small class="text-danger" *ngIf="uploadform.controls['state'].hasError('required') && uploadform.controls['state'].touched">
+          state is mandatory. </small>
+
+      </div>
+      <div class="form-group col-md-4">
+        <label for="formate">Form Field Required
+          <span class="mandatory">*</span>
+        </label>
+        <div class="form-row radiostyle">
+          <div class="col-md-3">
+            <input type="radio" value="0" formControlName="field_needed" />
+            <label class="radio-label"> Yes </label>
+          </div>
+          <div class="col-md-3">
+            <input type="radio" value="1" formControlName="field_needed" />
+            <label class="radio-label"> No </label>
+          </div>
+          <small class="text-danger" *ngIf="uploadform.controls['field_needed'].hasError('required') && uploadform.controls['field_needed'].touched">
+            Form Field Required is mandatory. </small>
+        </div>
+      </div>
+
+      <div class="form-group col-md-4">
+        <label>Is Custom Form</label>
+        <div class="pt-2">
+          <div class="form-check form-check-inline">
+            <input class="form-check-input" type="checkbox" formControlName="is_custom_form" id="inlineRadio1">
+            <label class="form-check-label" for="inlineRadio1">Is Custom Form</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </form>
+</div>
+<div class="modal-footer">
+  <!-- click-stop-propagation [disabled]="uploadform.invalid"  -->
+  <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="uploadform.invalid" (click)="updateFormDetails(0, 'edit')"
+    *ngIf="!showhide">Update</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="uploadform.invalid" (click)="addFormDetails(1)"
+    *ngIf="showhide">Save</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="clearDetails()" *ngIf="showhide"> Clear</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="activeModal.close('Close click')">Cancel</button>
+  <button *ngIf="!showhide" type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="uploadform.invalid || showrelease"
+    (click)="updateFormDetails(0, 'release')">Release</button>
+  <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="uploadform.invalid" (click)="addFormDetails(2)"
+    *ngIf="showhide">Release</button>
+</div>

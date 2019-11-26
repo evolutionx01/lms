@@ -1,0 +1,70 @@
+@import '~src/assets/sass/variables';
+@import '~src/assets/sass/mixins';
+
+.modal-header{
+    padding: .25rem;
+
+    
+    .modal-title{
+        padding: .75rem 1rem;
+        font-size: 0.875rem;
+        font-weight: bold;
+        color:$white;
+        
+        margin-bottom: 0;
+        line-height: 1rem;
+        vertical-align: middle;
+    
+    }
+    
+}
+.modal-body{
+    .table td{
+        padding: 0rem;
+    } 
+    .table th{
+        font-weight: normal;
+        padding: 0rem;
+    }
+    
+    .form-group{
+
+        margin-bottom: .5rem;
+        .mandatory{
+            color: red;
+        }
+        label{
+            margin-bottom: .15rem;
+        }
+        .formheader{
+            font-weight: bold;
+            margin-bottom: .5rem;
+            
+        }
+        .custom-file{
+            
+            &:focus{
+                border-color: none;
+                    outline: 0;
+                    box-shadow: none;
+            }
+        }
+        .form-control{
+            font-size: 0.75rem;
+            &:focus{
+                    border-color: none;
+                    outline: 0;
+                    box-shadow: none;
+                
+            }
+        }
+    }
+    
+}
+.modal-footer{
+    padding: 0.5rem;
+    .btn-custom-status{
+        @include button-big($bg-action-button);
+    }
+}
+

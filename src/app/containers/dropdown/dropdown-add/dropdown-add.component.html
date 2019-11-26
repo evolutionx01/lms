@@ -1,0 +1,101 @@
+<div class="modal-header">
+  <h4 class="modal-title text-uppercase">{{popupTitle}}</h4>
+  <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button>
+
+
+</div>
+<div class="modal-body">
+
+  <form [formGroup]="addDropdown">
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <label for="custName">Display Name
+          <span class="mandatory">*</span>
+        </label>
+        <input [ngStyle]="{'border-color':addDropdown.controls['drop_down_name'].hasError('required') && addDropdown.controls['drop_down_name'].touched ? 'red' : '#ced4da' }"
+          type="text" class="form-control" formControlName="drop_down_name" id="custName" placeholder="Enter display name">
+        <small class="text-danger" *ngIf="addDropdown.controls['drop_down_name'].hasError('required') && addDropdown.controls['drop_down_name'].touched">
+          Display name is mandatory. </small>
+      </div>
+      <div class="form-group col-md-12">
+        <label for="custName" class="mb-2">Add Items
+          <span class="mandatory mr-2">*</span>
+          <span class="success">please press enter button after typing the item name</span>
+        </label>
+
+        <div class="row" *ngIf="isAdd">
+          <div class="col-md-2">
+            <div class="d-inline-block pr-1">
+              <!-- <h6 class="page-subheading">List of Customers</h6> -->
+              <span class="showLabel">Show</span>
+            </div>
+            <div class="d-inline-block form-group m-0">
+              <select  class="form-control" (change)="onLimitChange($event.target.value)">
+                <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                  {{ option.value }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-4">
+              <form [formGroup]="searchItem">
+                  <div class="input-group input-group-sm">
+                    <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for item name">
+                    <div class="input-group-append">
+                      <button class="btn btn-search" click-stop-propagation [disabled]="searchItem.invalid" (click)="search()" type="button">
+                        <i class="fas fa-search"></i>
+                      </button>
+                      <button class="btn btn-search" (click)="clearSearch()" type="button">
+                        <i class="fas fa-redo-alt"></i>
+                      </button>
+                    </div>
+                  </div>
+                </form>
+          </div>
+          <div class="col-md-6">
+            <div class="float-right">
+              <ngb-pagination #pagination (pageChange)="onPageChange($event)" [collectionSize]="totalCount" [(page)]="page" [maxSize]="5" [rotate]="true"
+                [ellipses]="false" [boundaryLinks]="true" [pageSize]="pageLimit"></ngb-pagination>
+            </div>
+
+          </div>
+
+        </div>
+
+        <div class="form-group">
+          <div class="d-inline-block mr-2 mb-2" formArrayName="drop_down_items" *ngFor="let item of formData.controls; let i = index;">
+            <div [formGroupName]="i">
+              <div class="btn btn-custom btn-sm" *ngIf="editing[i + '-name']" (click)="editItem(addDropdown.value.drop_down_items[i].item_name,'name', i)">
+                <span>{{addDropdown.value.drop_down_items[i].item_name}}</span>
+                <button [disabled]="addButton" *ngIf="popupType.type == 'add'" class="btn btn-sm btn-custom ml-2 p-0" (click)="deleteItem(i)">
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+              <div *ngIf="!editing[i + '-name']">
+                <input class="form-control" autofocus formControlName="item_name" (keyup.enter)="updateValue($event, addDropdown.value.drop_down_items[i].item_id, 'name', i)"
+                  placeholder="Item name">
+              </div>
+            </div>
+          </div>
+          <button type="button" class="btn btn-custom btn-sm" [disabled]="addButton" (click)="addItem($event)">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+
+       
+      </div>
+
+    </div>
+  </form>
+
+
+</div>
+
+<div class="modal-footer">
+  <button type="button" class="btn btn-customer btn-sm mx-2" click-stop-propagation [disabled]="addDropdown.invalid" (click)="addEditDropdownData()">{{buttonTittle}}</button>
+  <!-- <button *ngIf="!showButton" type="button" class="btn btn-customer btn-sm mx-2" (click)="reset()">Clear</button> -->
+  <button type="button" class="btn btn-customer btn-sm mx-2" (click)="activeModal.close('Close click')">Cancel</button>
+
+</div>

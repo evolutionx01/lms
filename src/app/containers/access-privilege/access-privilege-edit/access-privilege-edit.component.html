@@ -1,0 +1,32 @@
+<!-- //[ngStyle]="{'background':dataStatus ? 'green' : 'red' }" -->
+<div class="modal-header" >
+  <h4 class="modal-title">API Access</h4>
+  <!-- <button type="button" class="close" aria-label="Close" (click)="activeModal.dismiss('Cross click')">
+    <span aria-hidden="true">&times;</span>
+  </button> -->
+</div>
+<div class="modal-body">
+  
+    <div class="row">
+      <div class="col-md-12">
+        <form [formGroup]="apiAccessUrl">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label>Domain Name</label>
+              <input [ngStyle]="{'border-color':(apiAccessUrl.controls['url'].hasError('required') && apiAccessUrl.controls['url'].touched ) || (apiAccessUrl.controls['url'].hasError('pattern') && apiAccessUrl.controls['url'].touched) ? 'red' : '#ced4da' }"
+               type="text" class="form-control" formControlName="url" placeholder="Enter Domain Name">
+               <small class="text-danger" *ngIf="apiAccessUrl.controls['url'].hasError('required') && apiAccessUrl.controls['url'].touched">
+                Domain name is mandatory. </small>
+              <small class="text-danger" *ngIf="apiAccessUrl.controls['url'].hasError('pattern') && apiAccessUrl.controls['url'].touched">
+                Please enter a valid domain name. </small>
+            </div>
+            </div>
+        </form>
+      </div>
+    </div>
+
+</div>
+<div class="modal-footer">
+  <button type="button" class="btn btn-custom-status btn-sm" [disabled]="apiAccessUrl.invalid" (click)="actionClicked('yes')">Save</button>
+  <button type="button" class="btn btn-custom-status btn-sm" (click)="actionClicked('no')">Cancel</button>
+</div>

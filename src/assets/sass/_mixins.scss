@@ -1,0 +1,107 @@
+@mixin rotate {
+  transform: rotate(15deg);
+}
+
+@mixin sidebar-icons {
+  .nav-item {
+    &:last-child {
+      margin-bottom: 1rem;
+    }
+    .nav-link {
+      text-align: center;
+      padding: 0.75rem 1rem;
+      width: $sidebar-collapsed-width;
+      span {
+        font-size: 0.65rem;
+        display: block;
+      }
+    }
+    .dropdown-menu {
+      position: absolute !important;
+      transform: none !important;
+      left: calc(#{$sidebar-collapsed-width} + 0.5rem) !important;
+      margin: 0;
+      &.dropup {
+        bottom: 0;
+        top: auto !important;
+      }
+    }
+    &.dropdown .dropdown-toggle::after {
+      display: none;
+    }
+  }
+}
+
+@mixin rotate {
+  transform: rotate(15deg);
+}
+
+@mixin button-big($bg) {
+  background: $bg;
+  text-align: center;
+  color:$white;
+  padding: 5px 15px;
+  border: 1px solid $bg;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 50px $bg inset;
+  color: #fff;
+  &:hover {
+    box-shadow: 0 0 $bg inset;
+    color: $bg;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+  &:focus {
+        outline: none;
+      }
+  &:disabled{
+    color:$white;
+    background: $bg;
+    transition:none;
+  } 
+}
+
+@mixin pageHeader-button($bg){
+  
+  background: $bg;
+  padding: .3rem .5rem;
+  color:white;
+  &:hover{
+    font-weight: normal !important;
+    box-shadow: none !important;
+  }
+  &:focus{
+    outline: none;
+    font-weight: normal !important;
+    box-shadow: none !important;
+  }
+}
+
+@mixin button-download($bg) {
+  background: $bg;
+  text-align: center;
+  color:$white;
+  border-radius: 0;
+  // padding: 5px 15px;
+  border: 1px solid $bg;
+  cursor: pointer;
+  transition: 0.3s;
+  box-shadow: 0 50px $bg inset;
+  color: #fff;
+  &:hover {
+    box-shadow: 0 0 $bg inset;
+    color: $bg;
+    background: #fff;
+    transition: all 0.3s ease;
+  }
+  &:focus {
+        outline: none;
+      }
+  &:disabled{
+    color:$white;
+    background: $bg;
+    transition:none;
+  } 
+}
+

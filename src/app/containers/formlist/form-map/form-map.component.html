@@ -1,0 +1,153 @@
+<div class="container-fluid" id="mapping">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fa fa-home" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">Form Mapping</h1>
+
+    </div>
+    <div class="col-md-6">
+      <div class="float-right">
+        <!-- <button type="button" class="btn btn-customer btn-sm mr-2" (click)="empty()">E-Sign</button> -->
+        <button type="button" class="btn btn-customer btn-sm mr-2" [disabled]="isPublishDisable" (click)="publishForm()">Publish</button>
+        <button *ngIf="isProdEnvironment" type="button" class="btn btn-header btn-sm" routerLink='/formlist/view'>
+          <i class="fas fa-reply"></i>
+        </button>
+
+        <button *ngIf="!isProdEnvironment" type="button" class="btn btn-header btn-sm" routerLink='/formlist/browser'>
+          <i class="fas fa-reply"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+
+        <div class="content-header">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="d-inline-block pr-2 ">
+                <h6 class="page-subheading text-capitalize">{{formName}}</h6>
+
+              </div>
+
+              <!-- <div class="d-inline-block form-group m-0">
+                  <select class="form-control" (change)="onLimitChange($event.target.value)">
+                      <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                        {{ option.value }}
+                      </option>
+                    </select>
+              </div> -->
+
+
+
+            </div>
+
+          </div>
+
+        </div>
+        <div class="content-view">
+          <div class="row">
+            <div  [ngClass]="isProdEnvironment ? 'col-md-6' : 'col-md-12'">
+
+              <div class="row pb-2">
+
+                <div class="col-md-6 col-sm-4">
+                  <!-- <form [formGroup]="searchFieldName">
+                    <div class="input-group input-group-sm">
+                      <input type="text" (input)="onSearchChange($event.target.value)" class="form-control" formControlName="searchValue" placeholder="Search for field name">
+                      <div class="input-group-append">
+                        <button class="btn btn-search" click-stop-propagation [disabled]="searchFieldName.invalid" (click)="search()" type="button">
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search" click-stop-propagation [disabled]="searchFieldName.invalid" (click)="clear()" type="button">
+                          <i class="fas fa-redo-alt"></i>
+                        </button>
+                      </div>
+                    </div>
+                  </form> -->
+                </div>
+
+                <div class="col-md-6 col-sm-8">
+                  <div class="float-right">
+                    <button class="btn btn-customer btn-sm mr-2" [disabled]="isDisabled" (click)="actionClicked($event, 'map')" type="button">Map</button>
+                    <!-- -->
+                    <button class="btn btn-customer btn-sm " [disabled]="isDisabled" (click)="actionClicked($event, 'unmap')" type="button">Unmap</button>
+                  </div>
+
+                </div>
+              </div>
+
+              <!-- <ngx-datatable #fieldMapping class="material striped" class="material striped" [rows]="formFieldToMapData" [columns]="columns" [columnMode]="'force'"
+       [headerHeight]="37" [footerHeight]="0" [rowHeight]="37" [scrollbarV]="true" [externalSorting]="true" (sort)="onSort($event)" > -->
+              <ngx-datatable class="material striped" [rows]="formFieldMapData" [columnMode]="'force'" [headerHeight]="37" [footerHeight]="0"
+                [rowHeight]="37" [selected]="selected" [selectionType]="'checkbox'" [selectAllRowsOnPage]="false" [displayCheck]="displayCheck"
+                (activate)="onActivate($event)" (select)='onSelect($event)' [externalSorting]="true" (sort)="onSort($event)"
+                [scrollbarV]="true">
+
+                <ngx-datatable-column [width]="30" [sortable]="false" [canAutoResize]="false" [draggable]="false" [resizeable]="false" [headerCheckboxable]="true"
+                  [checkboxable]="true">
+                </ngx-datatable-column>
+
+                <ngx-datatable-column name="Field Name" [sortable]="true">
+                  <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                    <span>{{row.field_name}}</span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+                <!-- <ngx-datatable-column name="Display Lable" [sortable]="false">
+                  <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                    <span> {{row.field_name}} </span>
+                  </ng-template>
+                </ngx-datatable-column> -->
+
+                <ngx-datatable-column name="Mapped Field" [sortable]="false">
+                  <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                    <span> {{row.column_name}} </span>
+                  </ng-template>
+                </ngx-datatable-column>
+
+              </ngx-datatable>
+            </div>
+            <div *ngIf="isProdEnvironment" class="col-md-6">
+              <div class="form_view_header">
+                <div class="row">
+                  <div class="col-md-4">
+                    <div class="download">
+                        <button class="btn btn-download btn-sm" (click)="downloadPdf()" type="button"><span class="fas fa-download" style="font-size: 20px;"></span></button>
+                      
+                    </div>
+                  </div>
+                  <div class="col-md-4">
+                    <h1 class="page-heading font20 paddingTop">Preview</h1>
+                  </div>
+                  <div class="col-md-4">
+                    <form [formGroup]="pdfForm" class="float-right paddingTop">
+                      <span class="pdfControls fa fa-angle-double-left fa-lg" (click)="pageChanged('first')"></span>&nbsp;
+                      <span class="pdfControls fa fa-angle-left fa-lg" (click)="pageChanged('prev')"></span> &nbsp;
+                      <input type="text" style="width: 30px;" formControlName="page" (keydown)="searchPage($event)" max="{{pdfViewer.getNumberOfPages()}}">/{{pdfViewer.getNumberOfPages()}}
+                      <span class="pdfControls fa fa-angle-right fa-lg" (click)="pageChanged('next')"></span> &nbsp;
+                      <span class="pdfControls fa fa-angle-double-right fa-lg" (click)="pageChanged('last')"></span> &nbsp;
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+                <simple-pdf-viewer #pdfViewer></simple-pdf-viewer>
+          
+
+
+
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

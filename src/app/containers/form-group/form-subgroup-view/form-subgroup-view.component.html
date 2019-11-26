@@ -1,0 +1,204 @@
+<div class="container-fluid" id="subgroup">
+  <div class="row header margin-bottom">
+    <div class="col-md-6 ">
+
+      <button class="btn btn-header btn-sm">
+        <i class="fas fa-layer-group" aria-hidden="true"></i>
+      </button>
+      <h1 class="page-heading">Sub Groups</h1>
+
+    </div>
+    <div class="col-md-6">
+      <div class="float-right">
+        <button type="button" class="btn btn-group btn-sm mr-2" (click)="openAddSubGroup()">Add Subgroup</button>
+        <button class="btn btn-header btn-sm" (click)="goBack()">
+          <!-- routerLink='/groups'  -->
+          <i class="fas fa-reply"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="row content">
+    <div class="col-md-12">
+      <div class="content-card">
+        <div class="content-view">
+          <div class="row">
+            <div class="col-md-5">
+              <div class="row">
+                <div class="col-md-12">
+                  <div class="d-inline-block pr-2 ">
+                    <h6 class="page-subheading text-capitalize">{{groupName}}</h6>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4 mb-2">
+                  <div class="d-inline-block pr-1">
+                    <span class="showLabel">Show</span>
+                  </div>
+                  <div class="d-inline-block form-group m-0">
+                    <select class="form-control" (change)="onLimitChange($event.target.value)">
+                      <option *ngFor="let option of pageLimitOptions" [value]="option.value" [selected]="option.value == currentPageLimit">
+                        {{ option.value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-8">
+
+                  <form class="searchBox" [formGroup]="searchSubGroup">
+                    <div class="input-group input-group-sm">
+                      <input type="text" class="form-control" formControlName="searchValue" placeholder="Search for sub group name">
+                      <div class="input-group-append">
+                        <button class="btn btn-search" click-stop-propagation [disabled]="searchSubGroup.invalid" (click)="search()" >
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search" (click)="clear()" type="button">
+                          <i class="fas fa-sync-alt"></i>
+                        </button>
+                      </div>
+                   
+                    </div>
+                  </form>
+                  <button class="btn btn-download btn-sm float-right ml-1"  placement="top" ngbTooltip="Download Excel"  (click)="exportSubGroupExcel()">
+                    <i class="fas fa-download"></i>
+                  </button>
+                </div>
+
+              </div>
+              <div class="row">
+                <div class="col-md-12">
+                  <ngx-datatable #mySubGroupTable class="material striped" [rows]="subGroupItem" [columns]="columns" [columnMode]="'force'"
+                    [headerHeight]="37" [footerHeight]="37" [limit]="pageLimit" [rowHeight]="'auto'" [externalPaging]="true"
+                    [count]="totalElements" [selected]="selected" [selectionType]="'single'" (activate)="onActivate($event)"
+                    (select)='onSelect($event)' (page)="setPage($event)" [externalSorting]="true" (sort)="onSort($event)">
+
+                    <ngx-datatable-column name="Order ID" [sortable]="true" [width]='100'>
+                      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                        <div>
+                          <span>{{row.order_id}}</span>
+                        </div>
+
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Sub Group Name" [sortable]="true" [width]='300'>
+                      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                        <div>
+                          <span>{{row.sub_group_name}}</span>
+                        </div>
+                        <div #fromGroupView class="d-flex flex-row">
+                          <!-- <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'view')">View Fields</div>
+                          <div class="px-2 divider">|</div> -->
+                          <div  *ngIf="row.display_edit" class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'edit')">Edit</div>
+                          <div *ngIf="row.display_edit" class="px-2 divider">|</div>
+                          <div *ngIf="row.display_edit" class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'delete')">Delete</div>
+                          <div *ngIf="row.display_edit" class="px-2 divider">|</div>
+                          <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'reorder')">Re-Order</div>
+
+                        </div>
+
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+
+
+            </div>
+            <div class="col-md-7">
+              <div class="row">
+                <div class="col-md-9 mb-2">
+                  <div class="d-inline-block pr-2 ">
+                    <h6 class="page-subheading text-capitalize">View Fields in {{subGroupName}}</h6>
+                  </div>
+                </div>
+                <div class="col-md-3">
+                  <div class="float-right">
+                    <button type="button" class="btn btn-group btn-sm" [disabled]="isSubGroupSelected" (click)="openAddFields()">Add Fields</button>
+                  </div>
+
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 mb-2">
+                  <div class="d-inline-block pr-1">
+                    <span class="showLabel">Show</span>
+                  </div>
+                  <div class="d-inline-block form-group m-0">
+                    <select [disabled]="isSubGroupSelected" class="form-control" (change)="onFieldLimitChange($event.target.value)">
+                      <option *ngFor="let option of pageFieldLimitOptions" [value]="option.value" [selected]="option.value == currentFieldPageLimit">
+                        {{ option.value }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div *ngIf="!isSubGroupSelected" class="col-md-6 mb-2">
+                  <form class="searchBox" [formGroup]="searchField" >
+                    <div class="input-group input-group-sm">
+                      <input  type="text" class="form-control" formControlName="searchValue" placeholder="Search for Display Label">
+                      <div class="input-group-append">
+                        <button  class="btn btn-search" click-stop-propagation [disabled]="searchField.invalid" (click)="fieldSearch()">
+                          <i class="fas fa-search"></i>
+                        </button>
+                        <button class="btn btn-search"  (click)="fieldClear()" type="button">
+                          <i class="fas fa-sync-alt"></i>
+                        </button>
+                      </div>
+                     
+                    </div>
+                  </form>
+                  <button [disabled]="isSubGroupSelected" class="btn btn-download btn-sm float-right ml-1"  placement="top" ngbTooltip="Download Excel"  (click)="exportFieldsExcel()">
+                    <i class="fas fa-download"></i>
+                  </button>
+                </div>
+                <div class="col-md-12">
+                  <ngx-datatable #mySubGroupField class="material striped" [columns]="columns" [rows]="listOfFieldData" [columnMode]="'force'"
+                    [headerHeight]="37" [footerHeight]="37" [limit]="fieldPageLimit" [rowHeight]="'auto'" [externalPaging]="true"
+                    [count]="fieldTotalElements" (page)='setFieldPage($event)' [externalSorting]="true" (sort)="onFieldSort($event)">
+                    <ngx-datatable-column name="Order Id" [sortable]="false" [width]='50'>
+                      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                        <span>{{row.order_id}}</span>
+                      </ng-template>
+                    </ngx-datatable-column>
+
+
+                    <ngx-datatable-column name="Field Name"  [sortable]="true">
+                      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                        <div>
+                          <span>{{row.field_name}}</span>
+                        </div>
+
+                        <div #fromGroupFieldView class="d-flex flex-row">
+                          <!-- <div class="actionTableItem" (click)="actionClicked($event, row, fromGroupView, 'view')">View Fields</div>
+                          <div class="px-2 divider">|</div> -->
+                          <div *ngIf="row.display_edit" class="actionTableItem" (click)="actionClickedField($event, row, fromGroupFieldView, 'edit')">Edit</div>
+                          <div *ngIf="row.display_edit" class="px-2 divider">|</div>
+                          <div *ngIf="row.display_edit" class="actionTableItem" (click)="actionClickedField($event, row, fromGroupFieldView, 'delete')">Delete</div>
+                          <div *ngIf="row.display_edit" class="px-2 divider">|</div>
+                          <div class="actionTableItem" (click)="actionClickedField($event, row, fromGroupFieldView, 'reorder')">Re-Order</div>
+
+                        </div>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Display Label" [sortable]="true">
+                      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                        <span>{{row.display_label}}</span>
+                      </ng-template>
+                    </ngx-datatable-column>
+                    <ngx-datatable-column name="Field Type" [sortable]="false">
+                      <ng-template let-rowIndex="rowIndex" let-row="row" ngx-datatable-cell-template>
+                        <span>{{row.master_field_type.field_type}}</span>
+                      </ng-template>
+                    </ngx-datatable-column>
+                  </ngx-datatable>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
